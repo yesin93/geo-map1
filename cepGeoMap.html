@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <head>
     <title>CEP Geo Map</title>
 
@@ -7,9 +8,10 @@
     <link rel="stylesheet" href="css/leaflet.css"/>
     <link rel="stylesheet" href="css/Control.Opacity.css"/>
     <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css"/>
+    <!--<link rel="stylesheet" href="css/font-wso2.css">-->
     <style type="text/css">
         #openStreetMapId {
-            height: 900px;
+            height: 95vh;
         }
     </style>
 
@@ -21,16 +23,9 @@
 </head>
 
 <body>
-<button onclick="setSVGMapBounds()">Upload Map</button>
-<button onclick="removeSVGMap()">Remove Map</button>
+<button id="Register" onclick="addMarker() ">Register Location</button>
+<button id="Remove" onclick="removeMarky() ">Remove Location</button>
 
-<!--Add Control buttons to move image-->
-<button id="MoveLeftButtonId" onclick="moveToLeft()">Move Left</button>
-<button id="MoveRightButtonId" onclick="moveToRight()">Move Right</button>
-<button id="MoveUpButtonId" onclick="moveToUp()">Move Up</button>
-<button id="MoveDownButtonId" onclick="moveToDown()">Move Down</button>
-<button id="MinimizeImageButtonId" onclick="Minimize()">Minimize Image</button>
-<button id="MaximizeImageButtonId" onclick="Maximize()">Maximize Image</button>
 
 <div id="openStreetMapId"></div>
 
@@ -47,25 +42,51 @@
     var svgMapBounds;
     var svgMapOverlay;
 
+    //marker
+    //    var marky;
+
     //utils
     var isOpacityNotSet = true;
     var deviation = 0.0001;
     var opacitySlider = new L.Control.opacitySlider();
 
     //on load
-    hideControlButtons();
+    //
     initialiseMap();
 
     //add base map
     function initialiseMap() {
-        baseMap = L.map('openStreetMapId').setView([40.691, -74.1847], 15);
+
+        //Renders map to user's current location
+        baseMap = L.map('openStreetMapId').locate({setView: true, maxZoom: 17});
+
+
+        //Rendering resources
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
             attribution: 'Map data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, CC-BY-SA.'
         }).addTo(baseMap);
 
+        //show current location
+        baseMap.on('locationfound', showMe);
+        function showMe(e){
+            popup.setLatLng(e.latlng).setContent("Hi! You're  at " + e.latlng.toString())
+                    .openOn(baseMap);
+        }
+
+        //On location error
+        function onLocationError(e) {
+            alert(e.message);
+        }
+
+        baseMap.on('locationerror', onLocationError);
+
         //show coordinates
         var popup = L.popup();
+
+        popup.setLatLng(latlng).setContent("You are here at " + latlng.toString())
+                .openOn(baseMap);
+
 
         function onMapClick(e) {
             popup
@@ -77,159 +98,113 @@
         baseMap.on('click', onMapClick);
     }
 
-    //get base map center and set svg map bounds
-    function setSVGMapBounds() {
 
-        //get base map center
-        var regexExpression = /LatLng\((.+)\)/g;
-        var mapCenterLatLngValues = regexExpression.exec(baseMap.getCenter())[1].split(",");
-        var mapCenter = [Number(mapCenterLatLngValues[0]), Number(mapCenterLatLngValues[1])];
-        baseMap.setView(mapCenter);
-        alert("Map center focused to: " + mapCenter);
+    function addMarker() {
 
-        //set svg map bounds
-        swLat = Number(mapCenterLatLngValues[0]);
-        swLong = Number(mapCenterLatLngValues[1]);
-        neLat = (Number(mapCenterLatLngValues[0]) + 0.02);
-        neLong = (Number(mapCenterLatLngValues[1]) + 0.03);
-        addSVGMap(swLat, swLong, neLat, neLong);
-    }
+        //Adds a marker to the map on double click
+//        baseMap.once('dblclick', onDblClick);
+//
+//function onDblClick(e) {
+//    var daLocation = e.latlng;
+//   marky = new L.marker(daLocation
+//           ,{draggable:true, riseOnHover: true}).addTo(baseMap)
+//            .bindPopup('How many floors does your building have?')
+//            .openPopup()
+//            .keepInView;
+//}
+//
+//        //load controllers
+//        showControlButtons();
+//        if (isOpacityNotSet) {
+//            baseMap.addControl(opacitySlider);
+//            isOpacityNotSet = false;
+//        }
+//        opacitySlider.setOpacityLayer(marky);
+        // attaching function on map click
 
-    //add svg map
-    function addSVGMap(swLat, swLong, neLat, neLong) {
-        svgMapUrl = 'images/Map_of_the_Mall_at_the_World_Trade_Center.svg';
-        svgMapBounds = [[swLat, swLong], [neLat, neLong]];
-//        alert("svg map bounds: " + svgMapBounds);
-        svgMapOverlay = L.imageOverlay(svgMapUrl, svgMapBounds, {opacity: 0.5})
-                .addTo(baseMap);
-        setValuesToTextBox();
+        //change buttons
+        var elem = document.getElementById("Register");
+        if (elem.value == "Register Location") elem.value = "Done";
+        else elem.value = "Done";
 
-        //load controllers
-        showControlButtons();
-        if (isOpacityNotSet) {
-            baseMap.addControl(opacitySlider);
-            isOpacityNotSet = false;
+        baseMap.on('dblclick', onMapClick);
+
+// Script for adding marker on map click
+        function onMapClick(e) {
+
+            var geojsonFeature = {
+                "type": "Feature",
+                "properties": {},
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [e.latlng.lat, e.latlng.lng]
+                }
+            }
+
+            var marker;
+
+            L.geoJson(geojsonFeature, {
+
+                pointToLayer: function (feature, latlng) {
+
+                    marker = L.marker(e.latlng, {
+
+                        title: "Resource Location",
+                        alt: "Resource Location",
+                        riseOnHover: true,
+                        draggable: true,
+
+                    }).bindPopup("<input type='button' value='Delete this marker' class='marker-delete-button'/>");
+
+                    marker.on("popupopen", onPopupOpen);
+
+                    return marker;
+                }
+            }).addTo(baseMap);
         }
-        opacitySlider.setOpacityLayer(svgMapOverlay);
+
+
+// Function to handle delete as well as other events on marker popup open
+        function onPopupOpen() {
+
+            var tempMarker = this;
+
+            //var tempMarkerGeoJSON = this.toGeoJSON();
+
+            //var lID = tempMarker._leaflet_id; // Getting Leaflet ID of this marker
+
+            // To remove marker on click of delete
+            $(".marker-delete-button:visible").click(function () {
+                baseMap.removeLayer(tempMarker);
+            });
+        }
+
     }
+
+    //remove the markers
+    function removeMarky() {
+        baseMap.on('dblclick', removeMarker);
+        function removeMarker(e) {
+            var daLocation = e.latlng;
+            baseMap.removeLayer();
+        }
+    }
+
 
     //remove svg map
-    function removeSVGMap() {
-        //remove layer
-        baseMap.removeLayer(svgMapOverlay);
-        hideControlButtons();
-        clearValuesInTextBox();
-        opacitySlider.removeFrom(baseMap);
-        isOpacityNotSet = true;
-    }
+    //    function removeMarker(){
+    //        //remove layer
+    ////        baseMap.removeLayer(svgMapOverlay);
+    //        document.getElementById("Register").value == "Register Location";
+    //        hideControlButtons();
+    ////        clearValuesInTextBox();
+    //        opacitySlider.removeFrom(baseMap);
+    //        isOpacityNotSet = true;
+    //
+    //    }
 
-    //functions to control svg map
-    function moveToRight() {
-        baseMap.removeLayer(svgMapOverlay);
-        swLong = swLong + deviation;
-        neLong = neLong + deviation;
-        addSVGMap(swLat, swLong, neLat, neLong);
-        setValuesToTextBox();
-    }
-
-    function moveToLeft() {
-        baseMap.removeLayer(svgMapOverlay);
-        swLong = swLong - deviation;
-        neLong = neLong - deviation;
-        addSVGMap(swLat, swLong, neLat, neLong);
-        setValuesToTextBox();
-    }
-
-    function moveToUp() {
-        baseMap.removeLayer(svgMapOverlay);
-        swLat = swLat + deviation;
-        neLat = neLat + deviation;
-        addSVGMap(swLat, swLong, neLat, neLong);
-        setValuesToTextBox();
-    }
-
-    function moveToDown() {
-        baseMap.removeLayer(svgMapOverlay);
-        swLat = swLat - deviation;
-        neLat = neLat - deviation;
-        addSVGMap(swLat, swLong, neLat, neLong);
-        setValuesToTextBox();
-    }
-
-    function Minimize() {
-        baseMap.removeLayer(svgMapOverlay);
-        neLat = neLat - deviation;
-        neLong = neLong - deviation;
-        addSVGMap(swLat, swLong, neLat, neLong);
-        setValuesToTextBox();
-    }
-
-    function Maximize() {
-        baseMap.removeLayer(svgMapOverlay);
-        neLat = neLat + deviation;
-        neLong = neLong + deviation;
-        addSVGMap(swLat, swLong, neLat, neLong);
-        setValuesToTextBox();
-    }
-
-    //set values to text box
-    function setValuesToTextBox() {
-        document.getElementById('SouthWestBoundLatitudeTextBoxId').value = swLat.toFixed(6);
-        document.getElementById('SouthWestBoundLongitudeTextBoxId').value = swLong.toFixed(6);
-        document.getElementById('NorthEastBoundLatitudeTextBoxId').value = neLat.toFixed(6);
-        document.getElementById('NorthEastBoundLongitudeTextBoxId').value = neLong.toFixed(6);
-    }
-
-    //reset values
-    function clearValuesInTextBox() {
-        document.getElementById('SouthWestBoundLatitudeTextBoxId').value = "";
-        document.getElementById('SouthWestBoundLongitudeTextBoxId').value = "";
-        document.getElementById('NorthEastBoundLatitudeTextBoxId').value = "";
-        document.getElementById('NorthEastBoundLongitudeTextBoxId').value = "";
-    }
-
-    //get values from text box
-    function getValuesFromTextBox() {
-        if (document.getElementById('SouthWestBoundLatitudeTextBoxId').value != "" && document.getElementById
-                ('SouthWestBoundLongitudeTextBoxId').value != "" && document.getElementById
-                ('NorthEastBoundLatitudeTextBoxId').value != "" && document.getElementById('NorthEastBoundLongitudeTextBoxId').value != "") {
-            swLat = Number(document.getElementById('SouthWestBoundLatitudeTextBoxId').value);
-            swLong = Number(document.getElementById('SouthWestBoundLongitudeTextBoxId').value);
-            neLat = Number(document.getElementById('NorthEastBoundLatitudeTextBoxId').value);
-            neLong = Number(document.getElementById('NorthEastBoundLongitudeTextBoxId').value);
-            baseMap.removeLayer(svgMapOverlay);
-            addSVGMap(swLat, swLong, neLat, neLong);
-        } else {
-            alert("Please set values!!");
-        }
-    }
-
-    //show control buttons
-    function showControlButtons() {
-        document.getElementById("MoveLeftButtonId").style.visibility = "visible";
-        document.getElementById("MoveRightButtonId").style.visibility = "visible";
-        document.getElementById("MoveUpButtonId").style.visibility = "visible";
-        document.getElementById("MoveDownButtonId").style.visibility = "visible";
-        document.getElementById("MaximizeImageButtonId").style.visibility = "visible";
-        document.getElementById("MinimizeImageButtonId").style.visibility = "visible";
-    }
-
-    //hide control buttons
-    function hideControlButtons() {
-        document.getElementById("MoveLeftButtonId").style.visibility = "hidden";
-        document.getElementById("MoveRightButtonId").style.visibility = "hidden";
-        document.getElementById("MoveUpButtonId").style.visibility = "hidden";
-        document.getElementById("MoveDownButtonId").style.visibility = "hidden";
-        document.getElementById("MaximizeImageButtonId").style.visibility = "hidden";
-        document.getElementById("MinimizeImageButtonId").style.visibility = "hidden";
-    }
 
 </script>
-<!--Add labels-->
-<br/><label>South West Bound Latitude: </label><input type="text" id="SouthWestBoundLatitudeTextBoxId">
-<label>South West Bound Longitude: </label><input type="text" id="SouthWestBoundLongitudeTextBoxId">
-<label>North East Bound Latitude: </label><input type="text" id="NorthEastBoundLatitudeTextBoxId">
-<label>North East Bound Longitude: </label><input type="text" id="NorthEastBoundLongitudeTextBoxId">
-<button onclick="getValuesFromTextBox()">Set Values</button>
+
 </body>
 </html>
