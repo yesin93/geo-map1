@@ -1,33 +1,117 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<!--<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <head>
-    <title>CEP Geo Map</title>
+    <title>Geo Map Component</title>
 
     <!-- style files-->
     <link rel="stylesheet" href="css/leaflet.css"/>
     <link rel="stylesheet" href="css/Control.Opacity.css"/>
-    <link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css"/>
-    <!--<link rel="stylesheet" href="css/font-wso2.css">-->
+    <!--<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.csts"/>-->
+    <link rel="stylesheet" href="css/theme.min.css"/>
+    <link rel="stylesheet" href="css/leaflet-sidebar.min.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/font-wso2.css">
+
     <style type="text/css">
         #openStreetMapId {
             height: 95vh;
+        }
+
+        .item {
+            border: 1px solid;
+            padding: 2px;
+            margin: 2px;
+            background-color: rgba(255, 128, 0, 0.5);
+        }
+
+        .active-marker {
+            background-color: rgba(255, 128, 0, 0.9);
         }
     </style>
 
     <!-- script files-->
     <script src="js/leaflet.js"></script>
     <script src="js/Control.Opacity.js"></script>
-    <script src="js/jquery-1.9.1.js"></script>
+    <!--<script src="js/jquery-1.9.1.js"></script>-->
+    <script
+            src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
     <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/theme-wso2.min.js"></script>
+    <script src="js/leaflet-sidebar.min.js"></script>
+    <script src="js/jquery-sidebar.min.js"></script>
 </head>
 
 <body>
-<button id="Register" onclick="addMarker() ">Register Location</button>
-<button id="Remove" onclick="removeMarky() ">Remove Location</button>
+<button id="Register" onclick="addMarker()">Register Location</button>
+<button id="Remove" disabled onclick="removeMarky()">Remove Location</button>
+
+<!--Le Sidebar-->
+
+<div id="sidebar" class="sidebar collapsed">
+    <!-- Nav tabs -->
+    <div class="sidebar-tabs">
+        <ul role="tablist">
+            <li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>
+            <li><a href="#info" role="tab"><i class="fa fa-info-circle"></i></a></li>
+            <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
+        </ul>
+
+        <ul role="tablist">
+            <li><a href="#delete" role="tab"><i class="fa fa-trash"></i></a></li>
+        </ul>
+    </div>
+
+    <!-- Tab panes -->
+    <div class="sidebar-content">
+        <div class="sidebar-pane" id="home">
+            <h1 class="sidebar-header">
+                Home
+                <span class="sidebar-close"><i class="fa fa-caret-right"></i></span>
+            </h1>
+        </div>
+
+        <div class="sidebar-pane" id="info">
+            <h1 class="sidebar-header">Pull Device/Location Info<span class="sidebar-close"><i
+                    class="fa fa-caret-right"></i></span></h1>
+        </div>
+
+        <div class="sidebar-pane" id="messages">
+            <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+        </div>
+
+        <div class="sidebar-pane" id="delete">
+            <h1 class="sidebar-header">Delete Locations<span class="sidebar-close"><i
+                    class="fa fa-caret-right"></i></span></h1>
+        </div>
+    </div>
+</div>
 
 
+<!--<div id="sidebar" class="sidebar sidebar-right">-->
+<!--&lt;!&ndash;tabs in the sidebar&ndash;&gt;-->
+
+<!--<div class=sidebar-tabs>-->
+<!--&lt;!&ndash;Define the data role of the tab&ndash;&gt;-->
+<!--<ul role="tablist">-->
+<!--<li><a href="#home" role="tab"><i class="fa fa-bars"></i></a></li>-->
+<!--<li><a href="#profile" role="tab"><i class="fa fa-user"></i></a></li>-->
+<!--<li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i>-->
+<!--</ul>-->
+<!--</div>-->
+<!--&lt;!&ndash;tab panes &ndash;&gt;-->
+<!--<div class="sidebar-content">-->
+<!--<div class="sidebar-pane" id="home"></div>-->
+<!--<h1 class = "sidebar-header">Home</h1>-->
+<!--</div>-->
+<!--<div class="sidebar-pane" id="profile"></div>-->
+<!--<h1 class = "sidebar-header">Your Devices</h1>-->
+<!--</div>-->
+<!--</div>-->
 <div id="openStreetMapId"></div>
+
 
 <!--scripts-->
 <script type="text/javascript">
@@ -35,13 +119,27 @@
     //image bounds
     var baseMap;
 
+    //Array to store marker latlng and ID
+    var markers = [];
+
+    // quick and dirty: create a big icon
+    L.Icon.Big = L.Icon.Default.extend({
+        options: {
+            iconSize: new L.Point(30, 49),
+        }
+    });
+
+    //THE ICONS
+    var bigIcon = new L.Icon.Big();
+    var smallIcon = new L.Icon.Default();
+
     //marker
     //    var marky;
 
     //utils
-//    var isOpacityNotSet = true;
-//    var deviation = 0.0001;
-//    var opacitySlider = new L.Control.opacitySlider();
+    //    var isOpacityNotSet = true;
+    //    var deviation = 0.0001;
+    //    var opacitySlider = new L.Control.opacitySlider();
 
     //on load
     initialiseMap();
@@ -50,9 +148,9 @@
     function initialiseMap() {
 
         //Renders map to user's current location
-        baseMap = L.map('openStreetMapId').locate({setView: true, maxZoom: 17});
+        baseMap = L.map('openStreetMapId').locate({setView: true, maxZoom: 17, animate: true, duration: 3});
 
-
+        var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(baseMap);
         //Rendering resources
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
@@ -61,9 +159,10 @@
 
         //show current location
         baseMap.on('locationfound', showMe);
-        function showMe(e){
+        function showMe(e) {
             popup.setLatLng(e.latlng).setContent("Hi! You're  at " + e.latlng.toString())
-                    .openOn(baseMap);
+                    .openOn(baseMap)
+                    .keepInView;
         }
 
         //On location error
@@ -73,21 +172,18 @@
 
         baseMap.on('locationerror', onLocationError);
 
-        //show coordinates
+
         var popup = L.popup();
 
-        popup.setLatLng(latlng).setContent("You are here at " + latlng.toString())
-                .openOn(baseMap);
-
-
-        function onMapClick(e) {
-            popup
-                    .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
-                    .openOn(baseMap);
-        }
-
-        baseMap.on('click', onMapClick);
+//
+//        function onMapClick(e) {
+//            popup
+//                    .setLatLng(e.latlng)
+//                    .setContent("You clicked the map at " + e.latlng.toString())
+//                    .openOn(baseMap);
+//        }
+//
+//        baseMap.on('click', onMapClick);
     }
 
 
@@ -115,44 +211,82 @@
         // attaching function on map click
 
         //change buttons
-        var elem = document.getElementById("Register");
-        if (elem.value == "Register Location") elem.value = "Done";
-        else elem.value = "Done";
+//        var elem = document.getElementById("Register");
+//        if (elem.value == "Register Location") elem.value = "Done";
+//        else elem.value = "Done";
 
         baseMap.on('dblclick', onMapClick);
 
 // Script for adding marker on map click
         function onMapClick(e) {
 
-            var geojsonFeature = {
-                "type": "Feature",
-                "properties": {},
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [e.latlng.lat, e.latlng.lng]
-                }
-            }
+//            var geojsonFeature = {
+//                "type": "Feature",
+//                "properties": {},
+//                "geometry": {
+//                    "type": "Point",
+//                    "coordinates": [e.latlng.lat, e.latlng.lng]
+//                }
+//            }
 
             var marker;
 
-            L.geoJson(geojsonFeature, {
+//            L.geoJson(geojsonFeature, {
+//
+//                pointToLayer: function (feature, latlng) {
 
-                pointToLayer: function (feature, latlng) {
+            marker = new L.marker(e.latlng, {
 
-                    marker = L.marker(e.latlng, {
+                title: "Resource Location",
+                alt: "Resource Location",
+                riseOnHover: true,
+                draggable: true,
 
-                        title: "Resource Location",
-                        alt: "Resource Location",
-                        riseOnHover: true,
-                        draggable: true,
+            }).bindPopup("<input type='button' value='Delete' class='marker-delete-button'/>");
+            marker.on('click', onMarkerClick);
 
-                    }).bindPopup("<input type='button' value='Delete this marker' class='marker-delete-button'/>");
+            marker.on("popupopen", onPopupOpen);
 
-                    marker.on("popupopen", onPopupOpen);
+//                    return marker;
+//                }
+//            })
+            marker.addTo(baseMap);
+            markers[marker._leaflet_id] = marker;
 
-                    return marker;
+            $('#home').append(
+                    '<div class="item" id="' + marker._leaflet_id + '">Marker ' + marker._leaflet_id);
+
+            $('#delete').append(
+                    '<div class="item" id="' + marker._leaflet_id + '">Marker ' + marker._leaflet_id +
+                    ' - <a href="#" 	class="remove" id="' + marker._leaflet_id + '">remove</a></div>');
+
+            // Remove a marker
+            $('.remove').on("click", function () {
+                // Remove the marker
+                baseMap.removeLayer(markers[$(this).attr('id')]);
+
+                // Remove the link
+                $(this).parent('div').remove();
+            });
+
+            $('.item').on("mouseover", function (e) {
+                $('div').removeClass('active-marker');
+                $(this).addClass('active-marker');
+                for (var mark in markers) {
+                    markers[mark].setIcon(smallIcon);
                 }
-            }).addTo(baseMap);
+                markerFunction($(this).attr('id'))
+                markers[$(this).attr('id')].setIcon(bigIcon);
+                var mid = $(this).attr('id');
+                var LatLng = markers[mid].getLatLng();
+                var offset = baseMap.panTo(LatLng);
+                baseMap.panBy(offset);
+            });
+        }
+
+        //open marker popup
+        function markerFunction(id) {
+            markers[id].openPopup();
         }
 
 
@@ -173,14 +307,25 @@
 
     }
 
-    //remove the markers
-    function removeMarky() {
-        baseMap.on('dblclick', removeMarker);
-        function removeMarker(e) {
-            var daLocation = e.latlng;
-            baseMap.removeLayer();
+    //Set
+    function onMarkerClick(e) {
+        $('div').removeClass('active-marker');
+        $('div #' + e.target._leaflet_id).addClass('active-marker');
+        for (var mark in markers) {
+            markers[mark].setIcon(smallIcon);
         }
+        var offset = baseMap.panTo(markers[mark].getLatLng());
+        baseMap.panBy(offset);
     }
+
+    //remove the markers
+    //    function removeMarky() {
+    //        baseMap.on('dblclick', removeMarker);
+    //        function removeMarker(e) {
+    //            var daLocation = e.latlng;
+    //            baseMap.removeLayer();
+    //        }
+    //    }
 
 
     //remove svg map
