@@ -1,0 +1,32 @@
+body {
+    padding-top: 70px;
+}
+
+.main-dropdown {
+    width: 400px;
+
+}
+
+.main-dropdown-toggle {
+    align-content: center;
+}
+
+/*We are giving a unique identifier to "dropdown-menu" whilst simultaneously*/
+/*getting the properties of "main dropdown"*/
+
+.main-dropdown .dropdown-menu {
+    min-width: 400px;
+}
+
+.get-image-wrapper .panel-body{
+    text-align: center;
+}
+
+.action-bar {
+    background: #4a4a4a;
+}
+
+header {
+    position: fixed;
+}
+
