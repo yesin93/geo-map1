@@ -205,14 +205,14 @@
     display: none;
 }
 #get_image {
-    width: 200px;
+    /*width: 200px;*/
     margin: 0 auto;
     font-size: 16px;
     text-align: center;
     background: #FFF;
     padding: 20px 30px;
     border-radius: 5px;
-    box-shadow: rgba(0,0,0,0.2) 0 0 2px 2px;
+    /*box-shadow: rgba(0,0,0,0.2) 0 0 2px 2px;*/
     position: relative;
 }
 #get_image .close_button {
@@ -250,7 +250,7 @@
     font-size: 21px;
 }
 #dropzone {
-    border: 2px dashed #999;
+    border: 2px solid #999;
     width: 200px;
     height: 200px;
     background: #FAFAFA url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAiCAYAAADCp/A1AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAAApjAAAKYwGDMomsAAAAB3RJTUUH3AkYCxg3B2a5QgAAAKtJREFUWMPt17sNgDAMRdE8tsj+w2UM6CiQEv9jIvm1COl0uUZbbIxxt03rvWP27WoHrJCFLGQhC1nIQr7DzohQI3fXjqaOkJFl0nxDVj9K+hKZocsNYGQXOafQ8YfTgTohcMKNA+rnHdAVkIWMhlJANjIKygGKkN5QLlCM9IJKgCqkFSoFqpFaqAZoQkqhWqAZyYVagC5ICmoFuiFnUA+gK/IL9QKGLOJlegBB2VeWydvIHgAAAABJRU5ErkJggg==) 50% 50% no-repeat;
@@ -258,6 +258,7 @@
     text-align: center;
     line-height: 200px;
     position: relative;
+    margin: 0 auto;
 }
 .error#dropzone {
     border: 2px dashed #F00;
