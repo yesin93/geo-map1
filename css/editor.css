@@ -1,5 +1,11 @@
+html, body, .container-fluid, .row {
+    height: 100%;
+    min-height: 100%;
+}
+
 body {
-    padding-top: 70px;
+    padding-top: 100px;
+
 }
 
 .main-dropdown {
@@ -18,7 +24,7 @@ body {
     min-width: 400px;
 }
 
-.get-image-wrapper .panel-body{
+.get-image-wrapper .panel-body {
     text-align: center;
 }
 
@@ -26,7 +32,25 @@ body {
     background: #4a4a4a;
 }
 
-header {
-    position: fixed;
+.header {
+    position: relative;
+}
+
+.sides-wild {
+    /*display: -webkit-box;*/
+    /*display: -webkit-flex;*/
+    /*display: -ms-flexbox;*/
+    /*display:         flex;*/
+    /*overflow: hidden;*/
+
+}
+
+.sides-wild > [class*='col-'] {
+
+    padding-right: 0px;
+    padding-left: 0px;
+    /*display: flex;*/
+    /*flex-direction: column;*/
+
 }
 
