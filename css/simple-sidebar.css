@@ -70,8 +70,8 @@
 #sidebar-wrapper-1 {
     min-height: 100%;
     background: rgb(56, 55, 55);
-    margin-bottom: -1000px;
-    padding-bottom: 1000px;
+    margin-bottom: -10000px;
+    padding-bottom: 10000px;
     overflow-y:hidden;
 }
 

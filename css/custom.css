@@ -1,0 +1,168 @@
+@charset "UTF-8";
+/*
+~   Copyright (c) WSO2 Inc. (http://wso2.com) All Rights Reserved.
+~
+~   Licensed under the Apache License, Version 2.0 (the "License");
+~   you may not use this file except in compliance with the License.
+~   You may obtain a copy of the License at
+~
+~        http://www.apache.org/licenses/LICENSE-2.0
+~
+~   Unless required by applicable law or agreed to in writing, software
+~   distributed under the License is distributed on an "AS IS" BASIS,
+~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~   See the License for the specific language governing permissions and
+~   limitations under the License.
+*/
+
+ul li, ul {list-style: none;margin: 0;padding: 0}
+a:hover, a:focus {
+    text-decoration: none;
+}
+.nav > li {
+    position: relative;
+}
+.nav > li > a {
+    padding: 2px 35px 2px 15px ;
+    font-size: 13px;
+    font-weight: 500;
+    color: #898989;
+    margin: 0;
+    border-width: 2px;
+
+}
+.primary-tab > .nav > li > a {
+    border-right: 1px solid #c7c7c7
+}
+.nav > li > .close {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    padding: 0 5px;
+    font-size:18px;
+    font-weight: 300;
+    line-height: 24px
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    border-width: 2px;
+    border-color: #c7c7c7 #c7c7c7 transparent;
+    background: #f8f8f8;
+    color: #585858
+}
+.nav-tabs {
+    background: #e3e4e4;
+    border-bottom-color: #c7c7c7;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: initial;
+    color: #fff;
+}
+.navbar .container-fluid > .navbar-collapse .icon, .navbar .container-fluid > .navbar-header .icon, .navbar .container > .navbar-collapse .icon, .navbar .container > .navbar-header .icon {margin-bottom: 0}
+
+/*Bottom tabs styles*/
+.tabs-below > .nav-tabs .active a, .tabs-below > .nav-tabs .active a:hover .active a:focus {
+     border-color: transparent #c7c7c7 #c7c7c7 !important;
+}
+
+.tabs-below > .nav-tabs {
+    border-top: 2px solid #c7c7c7;
+    margin-bottom: 0;
+}
+.tabs-below > .nav-tabs > li {
+    border-right: 1px solid #c7c7c7;
+}
+.tabs-below > .nav-tabs > li > a {
+    margin-bottom: 0;
+    margin-top: -2px;
+}
+.tabs-below > .nav > li > .close {    
+    top: -2px;
+}
+.tabs-below > .nav > li.newTab > a {
+    font-size: 12px;
+    padding: 2px 8px;
+}
+/*Inner side bar styles*/
+.innerSideBar {
+    width: 200px;
+    border-right: 1px solid #c9c9c9;
+    background: #f8f8f8;
+    min-width: 120px;
+}
+/*Left sidebar styles*/
+.leftSidebar {
+    width: 280px;
+    background: #272727;
+    display: table-cell;
+    min-width: 220px
+}
+.tabs-left ul.nav-tabs {
+    width: 30px;
+    float: left;
+    background: #333333;    
+    border-bottom: 0
+}
+.tabs-left .tab-content {
+    float: left;
+    width: calc(100% - 30px);
+    color: #bababa
+}
+.tabs-left > .nav > li {width: 100%}
+.tabs-left > .nav > li > a {
+    padding: 0;
+    line-height: 40px;
+    border:0;
+    margin: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+}
+.tabs-left > .nav-tabs > li.active > a, .tabs-left > .nav-tabs > li.active > a:hover, .tabs-left > .nav-tabs > li.active > a:focus {
+    background: #272727
+}
+.tabs-left > .nav-tabs > li.active > a, .tabs-left > .nav-tabs > li.active > a:hover, .tabs-left > .nav-tabs > li.active > a:focus {
+    border:0;
+    color: #e4e4e4
+}
+.tabs-left > .nav > li > a:hover, .tabs-left > .nav > li > a:focus {
+    background: #3e3e3e
+}
+.topToolbar {
+    line-height: 40px;
+}
+.topToolbar a {
+    color: #fff;
+    font-size: 13px;
+    padding: 0 10px
+}
+.nav > li.rightAcrionBtn > a{color: #a9a9a9}
+.nav > li.rightAcrionBtn > a:hover, .nav > li.rightAcrionBtn > a:focus {
+    background-color: #4d4d4d;
+    border-color: #4d4d4d
+}
+.rightAcrionBtn .btn {
+    background-color: #3e3e3e;
+    padding: 2px 15px
+}
+.rightAcrionBtn i { 
+    font-size: 1.5em;
+    line-height: 0.75em;
+    vertical-align: -15%;
+}
+.page-content-wrapper {
+    display: table;
+    width: 100%
+}
+.tree-view li ul li {padding-right: 0}
+p.statusBar {
+    background:  #2a2b2c;
+    margin: 0;
+    padding: 0 15px;
+    line-height: 25px;
+    color: #9b9b9b
+    } 
+/*Temp styles*/
+/*.primary-tab .tab-pane.active, .leftSidebar, .innerSideBar{min-height: 760px}
+.tabs-left ul.nav-tabs {min-height: 838px}*/
+

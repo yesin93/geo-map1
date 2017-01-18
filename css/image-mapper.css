@@ -136,6 +136,7 @@
     border-radius: 3px;
     box-shadow: rgba(0,0,0,0.2) 0 0 2px 2px;
     display: none;
+    width:100%;
 }
 .draw#image {
     cursor: crosshair;
@@ -465,6 +466,8 @@
     left: 0;
     z-index: 2;
     display: inline-block;
+    width:100%;
+    height:auto;
 }
 #svg rect {
     stroke-width: 3px;
