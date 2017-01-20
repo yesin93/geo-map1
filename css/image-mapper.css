@@ -122,9 +122,9 @@
     z-index: 1001;
     font-size: 11px;
 }
-#wrapper {
-    position: relative;
-}
+/*#wrapper {*/
+    /*position: relative;*/
+/*}*/
 #image_wrapper {
     padding: 45px 0 10px;
 }

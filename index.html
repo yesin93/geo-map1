@@ -207,11 +207,11 @@
                                     <input type="text" class="form-control" name="address" id="address" placeholder="13/13, Mockingbird Ave, New York"> </div>
                                 <br />
                                 <div class="form-group">
-                                    <label for="floornumbers">No. of Floors*</label>
-                                    <input type="number" class="form-control required" id="floornumbers" name="floornumbers" placeholder="Number of floors"> </div>
+                                    <label for="floors">No. of Floors*</label>
+                                    <input type="number" class="form-control required" id="floors" name="floors" placeholder="Number of floors"> </div>
                                 <br />
                                 <!--            <div style="margin-left:140px;">-->
-                                <button type="submit" class="btn btn-default">Submit</button>
+                                <button type="button" class="btn btn-secondary">Save</button>
                             </form>
                             <button type="button" class="btn btn-primary btn-lg btn-block">View Devices</button>
 
@@ -274,10 +274,6 @@
     //marker
     //    var marky;
 
-    //utils
-    //    var isOpacityNotSet = true;
-    //    var deviation = 0.0001;
-    //    var opacitySlider = new L.Control.opacitySlider();
 
     //on load
     initialiseMap();
@@ -843,6 +839,7 @@
         });
     });
 </script>
+<script src="js/createJSON.js"></script>
 
 
 </body>
