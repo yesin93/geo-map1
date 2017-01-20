@@ -18,6 +18,9 @@
     <link href="libs/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet" type="text/css"/>
 
+    <!--image mapper css-->
+    <link href="css/image-mapper.css" rel="stylesheet" type="text/css"/>
+
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -29,7 +32,7 @@
 <body class="sticky-footer fixed">
 
 <!-- header -->
-<header class="header header-default">
+<header class="header header-default" >
     <div class="container-fluid">
         <div class="pull-left brand">
             <a href="#">
@@ -64,7 +67,55 @@
     </ol>
 </div>
 
+<!-- navbar -->
+<div class="navbar-wrapper">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
 
+                <!--<a class="navbar-menu-toggle" aria-expanded="false">-->
+                <!--<span class="icon fw-stack">-->
+                <!--<i class="fw fw-menu fw-stack-1x"></i>-->
+                <!--</span>-->
+                <!--</a>-->
+                <div class="navbar-brand">
+                    <a href="#">Geographic View</a>
+                </div>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#" onclick="addMarker()">
+                                <span class="icon fw-stack">
+                                    <i class="fw fw-add fw-helper fw-helper-circle-outline"></i>
+                                </span>
+                            Add Location
+                        </a>
+                    </li>
+                    <li id="save"><a href="#">Save</a></li>
+                    <li id="load"><a href="#">Load</a></li>
+                    <li id="from_html"><a href="#">From html</a></li>
+                    <li id="rectangle"><a href="#">Rectangle</a></li>
+                    <li id="circle"><a href="#">Circle</a></li>
+                    <li id="polygon"><a href="#">Polygon</a></li>
+                    <li id="edit"><a href="#">Edit</a></li>
+                    <li id="to_html"><a href="#">To html</a></li>
+                    <li id="preview"><a href="#">Preview</a></li>
+                    <li id="clear"><a href="#">Clear</a></li>
+                    <li id="new_image"><a href="#">New image</a></li>
+                    <li id="show_help"><a href="#">User guide</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+</div>
+<!-- /navbar -->
 
 
 
@@ -78,6 +129,172 @@
         </ul>
     </div>
 
+    <!--HTML Image mapping plugin-->
+    <div id="wrapper">
+        <header class="clearfix" id="header">
+            <nav id="nav" class="navbar navbar-inverse navbar-fixed-top clearfix">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">&lt;Building Name&gt; - Floorplan</a>
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="dropdown main-dropdown">
+                                <a href="#" class="dropdown-toggle main-dropdown-toggle" data-toggle="dropdown"
+                                   role="button"
+                                   aria-haspopup="true" aria-expanded="false">Select Floor <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">1st Floor</a></li>
+                                    <li><a href="#">2nd Floor</a></li>
+                                    <li><a href="#">3rd Floor</a></li>
+                                </ul>
+                            </li>
+                            <li id="save"><a href="#">Save</a></li>
+                            <li id="load"><a href="#">Load</a></li>
+                            <li id="from_html"><a href="#">From html</a></li>
+                            <li id="rectangle"><a href="#">Rectangle</a></li>
+                            <li id="circle"><a href="#">Circle</a></li>
+                            <li id="polygon"><a href="#">Polygon</a></li>
+                            <li id="edit"><a href="#">Edit</a></li>
+                            <li id="to_html"><a href="#">To html</a></li>
+                            <li id="preview"><a href="#">Preview</a></li>
+                            <li id="clear"><a href="#">Clear</a></li>
+                            <li id="new_image"><a href="#">New image</a></li>
+                            <li id="show_help"><a href="#">User guide</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div id="coords"></div>
+            <div id="debug"></div>
+
+        </header>
+        <div class="container-fluid">
+            <div class="row sides-wild">
+                <div class="col-md-2 col-sm-12 col-xs-12">
+
+                </div>
+                <div class="col-md-8 col-sm-12 col-xs-12">
+                    <div id="image_wrapper">
+                        <!-- Get image form -->
+                        <div id="get_image_wrapper" class="">
+                            <div id="get_image">
+
+
+                                <span title="close" class="close_button"></span>
+
+                                <div id="loading">Loading</div>
+                                <div id="file_reader_support">
+                                    <h3>Please upload a floorplan</h3>
+                                    <label>Drag and drop image</label>
+                                    <div id="dropzone">
+                                        <span class="clear_button" title="clear">x</span>
+                                        <img src="" alt="preview" id="sm_img"/>
+                                    </div>
+                                    <b>or</b>
+                                </div>
+                                <label for="url">type a url</label>
+                                <span id="url_wrapper">
+            <span class="clear_button" title="clear">x</span>
+            <input type="text" id="url"/>
+        </span>
+                                <button id="button">OK</button>
+
+                            </div>
+                        </div>
+                        <!--end of image drag drop-->
+                        <div id="image">
+                            <img src="" alt="#" id="img"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg"></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-sm-12 col-xs-12">
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- For html image map code -->
+    <div id="code">
+        <span class="close_button" title="close"></span>
+        <div id="code_content"></div>
+    </div>
+
+    <!-- Edit details block -->
+    <form id="edit_details">
+        <h5>Attributes</h5>
+        <span class="close_button" title="close"></span>
+        <p>
+            <label for="href_attr">href</label>
+            <input type="text" id="href_attr"/>
+        </p>
+        <p>
+            <label for="alt_attr">alt</label>
+            <input type="text" id="alt_attr"/>
+        </p>
+        <p>
+            <label for="title_attr">title</label>
+            <input type="text" id="title_attr"/>
+        </p>
+        <button id="save_details">Save</button>
+    </form>
+
+
+    <!-- From html block -->
+    <div id="from_html_wrapper">
+        <form id="from_html_form">
+            <h5>Loading areas</h5>
+            <span class="close_button" title="close"></span>
+            <p>
+                <label for="code_input">Enter your html code:</label>
+                <textarea id="code_isnput"></textarea>
+            </p>
+            <button id="load_code_button">Load</button>
+        </form>
+    </div>
+
+
+    <!-- Help block -->
+    <div id="overlay"></div>
+    <div id="help">
+        <span class="close_button" title="close"></span>
+        <div class="txt">
+            <section>
+                <h2>Main</h2>
+                <p><span class="key">F5</span> &mdash; reload the page and display the form for loading image again</p>
+                <p><span class="key">S</span> &mdash; save map params in localStorage</p>
+            </section>
+            <section>
+                <h2>Drawing mode (rectangle / circle / polygon)</h2>
+                <p><span class="key">ENTER</span> &mdash; stop polygon drawing (or click on first helper)</p>
+                <p><span class="key">ESC</span> &mdash; cancel drawing of a new area</p>
+                <p><span class="key">SHIFT</span> &mdash; square drawing in case of a rectangle and right angle drawing in
+                    case of a polygon</p>
+            </section>
+            <section>
+                <h2>Editing mode</h2>
+                <p><span class="key">DELETE</span> &mdash; remove a selected area</p>
+                <p><span class="key">ESC</span> &mdash; cancel editing of a selected area</p>
+                <p><span class="key">SHIFT</span> &mdash; edit and save proportions for rectangle</p>
+                <p><span class="key">I</span> &mdash; edit attributes of a selected area (or dblclick on an area)</p>
+                <p><span class="key">CTRL</span> + <span class="key">C</span> &mdash; a copy of the selected area</p>
+                <p><span class="key">&uarr;</span> &mdash; move a selected area up</p>
+                <p><span class="key">&darr;</span> &mdash; move a selected area down</p>
+                <p><span class="key">&larr;</span> &mdash; move a selected area to the left</p>
+                <p><span class="key">&rarr;</span> &mdash; move a selected area to the right</p>
+            </section>
+        </div>
+<!--plugin component end-->
 </div>
 
 <footer class="footer">
@@ -94,6 +311,7 @@
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="libs/bootstrap_3.3.6/js/bootstrap.min.js"></script>
 <script src="libs/theme-wso2_2.0.0/js/theme-wso2.min.js"></script>
+<script type="text/javascript" src="js/summerHTMLImageMapCreator.js"></script>
 
 </body>
 </html>
