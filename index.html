@@ -293,10 +293,19 @@
         });
     });
 
+    var markerID;
     //open new window onclick
     function openWin() {
-        window.open("visualizer.html");
+        window.open("visualizer.html?id='+markerID+'");
     }
+
+    $('#home').on('click', '[data-toggle=save-data]', function(e){
+        if($(e.target).closest('form').valid()) {
+            var id = element.prop('id');
+            markerID = id;
+            openWin();
+        }
+    });
 
     // Script for adding marker
     function addingMarker(e, d) {
@@ -342,7 +351,7 @@
 
         marker.addTo(baseMap);
         markers[marker._leaflet_id] = marker;
-
+//        markerID = marker._leaflet_id;
         //console.log(marker);
 
         //append the information to the sidebar
@@ -370,7 +379,7 @@
                 '</div>' +
                 '<div class="form-group">' +
                 '<button type="button" class="btn btn-primary" data-toggle="update-data">Save</button>' +
-                '<button type="button" class="btn btn-secondary" onclick="openWin()">Edit Floors</button>' +
+                '<button type="button" class="btn btn-secondary" toggle-data="save-data">Edit Floors</button>' +
                 '</div>' +
                 '</form>' +
                 '</div>');

@@ -3,7 +3,7 @@
  */
 //JSON obj array
 var markerInfo = {
-    metaData: []
+    // metaData: []
 };
 
 //console.log(baseMap);
@@ -45,8 +45,19 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         var coordinates = {};
         var element = $(e.target).closest('.item');
 
+        //passing the lat and lng values to coordinates obj
         coordinates["lat"] = element.data('lat');
         coordinates["lng"] = element.data('lng');
+
+        //get the values of the form elements
+        var id = element.prop('id');
+
+
+        //obj array to be inside markerInfo obj array
+        var floorplan = [];
+        var floorObjs = {};
+        floorObjs["floor1"] = "";
+        floorplan.push(floorObjs);
 
         //get the values of the form elements
         var id = element.prop('id');
@@ -57,14 +68,26 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
 
         //prepare the properties of the object
         markerDetails["id"] = id;
-        markerDetails["coordinates"] = coordinates;
-        markerDetails["locationName"] = name;
         markerDetails["address"] = address;
+        markerDetails["coordinates"] = coordinates;
+        markerDetails["floorplan"] = floorplan;
         markerDetails["floors"] = floors;
+        markerDetails["locationName"] = name;
 
         //After you've done fiddling with the object you can pass the object into the JSON array
-        markerInfo.metaData.push(markerDetails);
-        console.log(markerInfo);
+        // markerInfo.metaData.push(markerDetails);
+
+        //object is created to be pushed to result JSON
+        console.log(markerDetails);
+
+
+        //get the JSON obj array
+            $.get('result.json', function (data) {
+data.metaData.push(markerDetails);
+                console.log(data);
+
+            });
+
 
     }
 
