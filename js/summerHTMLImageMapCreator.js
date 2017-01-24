@@ -434,13 +434,23 @@ var summerHtmlImageMapCreator = (function() {
                 save : function() {
                     var result = areasIO.toJSON();
                     window.localStorage.setItem(KEY_NAME, result);
-                    console.info('Editor ' + result + ' saved');
+                    //console.info('Editor ' + result + ' saved');
                 
                     alert('Saved');
-                    // console.log(result);
+                    console.log(result);
+                    //console.log(JSON.stringify(result));
+
                 },
                 restore : function() {
-                    areasIO.fromJSON(window.localStorage.getItem(KEY_NAME));
+
+                    $.get('result.json', function (data) {
+
+                        // console.log(JSON.stringify(data.metaData[0].floorplan[0].floor1));
+                        // console.log(window.localStorage.getItem(KEY_NAME));
+                        areasIO.fromJSON(JSON.stringify(data.metaData[0].floorplan[0].floor1));
+                    });
+
+
                 }
             };
         })();
