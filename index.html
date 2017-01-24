@@ -28,39 +28,15 @@
     <!-- Font WSO2 CSS -->
     <link href="libs/font-wso2_1.1.1/css/font-wso2.min.css" rel="stylesheet" type="text/css"/>
 
+    <!--fontawesome-->
+    <link href="libs/font-awesome_4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
     <!--leaflet-->
     <link rel="stylesheet" href="css/leaflet.css"/>
     <link rel="stylesheet" href="css/leaflet-sidebar.min.css"/>
 
     <link href="libs/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet" type="text/css"/>
-
-    <!--fontawesome-->
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
-
-    <style type="text/css">
-
-        .item {
-            /*border: 1px solid;*/
-            padding: 5px 10px;
-            /*margin: 2px 2px;*/
-            /*border-radius: 5px;*/
-            border-bottom:solid 2px #ccc;
-            background-color: rgba(255, 128, 0, 0.5);
-        }
-
-        .active-marker {
-            background-color: rgba(255, 128, 0, 0.9);
-        }
-    </style>
-
-    <!--for form validation-->
-    <style type="text/css">
-        .error {
-            border-color: #ff2222;
-        }
-    </style>
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -101,11 +77,10 @@
 
 <!-- breadcrumb -->
 <!--<div class="breadcrumb-wrapper">-->
-    <!--<ol class="breadcrumb">-->
-        <!--<li><a href="/"><i class="icon fw fw-home"></i> <span class="hidden-xs">Map</span></a></li>-->
-    <!--</ol>-->
+<!--<ol class="breadcrumb">-->
+<!--<li><a href="/"><i class="icon fw fw-home"></i> <span class="hidden-xs">Map</span></a></li>-->
+<!--</ol>-->
 <!--</div>-->
-
 
 
 <!-- navbar -->
@@ -119,19 +94,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-
-                <!--<a class="navbar-menu-toggle" aria-expanded="false">-->
-                        <!--<span class="icon fw-stack">-->
-                            <!--<i class="fw fw-menu fw-stack-1x"></i>-->
-                        <!--</span>-->
-                <!--</a>-->
                 <div class="navbar-brand">
                     <a href="#">Geographic View</a>
                 </div>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li>
                         <a href="#" onclick="addMarker()">
                                 <span class="icon fw-stack">
                                     <i class="fw fw-add fw-helper fw-helper-circle-outline"></i>
@@ -140,24 +109,6 @@
                         </a>
                     </li>
                 </ul>
-                <!--<ul class="nav navbar-nav navbar-right">-->
-                    <!--<li class="dropdown">-->
-                        <!--<a data-toggle="dropdown">-->
-                            <!--<i class="fw fw-notification"></i>-->
-                            <!--<span class="badge badge-bubble">4</span>-->
-                        <!--</a>-->
-                        <!--<ul class="dropdown-menu" role="menu">-->
-                            <!--<li class="dropdown-header"><h5>Notifications</h5></li>-->
-                            <!--<li class="divider"></li>-->
-                            <!--<li><a href="#"><i class="fw fw-success"></i> Lorem ipsum dolor sit amet</a></li>-->
-                            <!--<li><a href="#"><i class="fw fw-error"></i> Consectetur adipiscing elit</a></li>-->
-                            <!--<li><a href="#"><i class="fw fw-warning"></i> Vivamus sagittis elit et orci molestie</a></li>-->
-                            <!--<li><a href="#"><i class="fw fw-error"></i> Class aptent taciti sociosqu</a></li>-->
-                            <!--<li class="divider"></li>-->
-                            <!--<li><a href="#">See All</a></li>-->
-                        <!--</ul>-->
-                    <!--</li>-->
-                <!--</ul>-->
             </div><!--/.nav-collapse -->
         </div>
     </nav>
@@ -165,10 +116,9 @@
 <!-- /navbar -->
 
 
-
 <div class="page-content-wrapper">
-    <div class="body-wrapper">
-        <div id="sidebar" class="sidebar collapsed">
+
+    <div id="sidebar" class="sidebar collapsed">
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
@@ -200,20 +150,24 @@
                             <form action="" method="post" id="register-form" novalidate="novalidate">
                                 <div class="form-group">
                                     <label for="locationName">Location Name*</label>
-                                    <input type="text" class="form-control" name="locationName" id="locationName" placeholder="Home"> </div>
-                                <br />
+                                    <input type="text" class="form-control" name="locationName" id="locationName"
+                                           placeholder="Home"></div>
+                                <br/>
                                 <div class="form-group">
                                     <label for="address">Address*</label>
-                                    <input type="text" class="form-control" name="address" id="address" placeholder="13/13, Mockingbird Ave, New York"> </div>
-                                <br />
+                                    <input type="text" class="form-control" name="address" id="address"
+                                           placeholder="13/13, Mockingbird Ave, New York"></div>
+                                <br/>
                                 <div class="form-group">
                                     <label for="floors">No. of Floors*</label>
-                                    <input type="number" class="form-control required" id="floors" name="floors" placeholder="Number of floors"> </div>
-                                <br />
+                                    <input type="number" class="form-control required" id="floors" name="floors"
+                                           placeholder="Number of floors"></div>
+                                <br/>
                                 <!--            <div style="margin-left:140px;">-->
-                                <button type="button" class="btn btn-secondary">Save</button>
+                                <button type="button" class="btn btn-secondary" onclick="pushStuff()">Save</button>
+                                <button type="button" class="btn btn-primary">View Devices</button>
                             </form>
-                            <button type="button" class="btn btn-primary btn-lg btn-block">View Devices</button>
+
 
                         </div>
                     </div>
@@ -221,13 +175,14 @@
             </div>
 
             <div class="sidebar-pane" id="messages">
-                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-right"></i></span></h1>
+                <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-right"></i></span>
+                </h1>
             </div>
         </div>
     </div>
 
-        <div id="openStreetMapId" style="height:500px"></div>
-    </div>
+    <div id="openStreetMapId" style="height:100%"></div>
+
 </div>
 
 <footer class="footer">
@@ -254,293 +209,6 @@
 <!--scripts-->
 <script type="text/javascript">
 
-    //image bounds
-    var baseMap;
-
-    //Array to store marker latlng and ID
-    var markers = [];
-
-    // quick and dirty: create a big icon
-    L.Icon.Big = L.Icon.Default.extend({
-        options: {
-            iconSize: new L.Point(30, 49),
-        }
-    });
-
-    //THE ICONS
-    var bigIcon = new L.Icon.Big();
-    var smallIcon = new L.Icon.Default();
-
-    //marker
-    //    var marky;
-
-
-    //on load
-    initialiseMap();
-
-    //add base map
-    function initialiseMap() {
-
-        //Renders map to user's current location
-        baseMap = L.map('openStreetMapId').locate({setView: true, maxZoom: 17, animate: true, duration: 3});
-
-        var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(baseMap);
-        //Rendering resources
-        L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: 'Map data © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, CC-BY-SA.'
-        }).addTo(baseMap);
-
-        //show current location
-        baseMap.on('locationfound', showMe);
-        function showMe(e) {
-            popup.setLatLng(e.latlng).setContent("Hi! You're Here")
-                    .openOn(baseMap)
-                    .keepInView;
-        }
-
-        //On location error
-        function onLocationError(e) {
-            alert(e.message);
-        }
-
-        baseMap.on('locationerror', onLocationError);
-
-
-        var popup = L.popup();
-
-//
-//        function onMapClick(e) {
-//            popup
-//                    .setLatLng(e.latlng)
-//                    .setContent("You clicked the map at " + e.latlng.toString())
-//                    .openOn(baseMap);
-//        }
-//
-//        baseMap.on('click', onMapClick);
-    }
-
-
-    function addMarker() {
-
-        //Adds a marker to the map on double click
-//        baseMap.once('dblclick', onDblClick);
-//
-//function onDblClick(e) {
-//    var daLocation = e.latlng;
-//   marky = new L.marker(daLocation
-//           ,{draggable:true, riseOnHover: true}).addTo(baseMap)
-//            .bindPopup('How many floors does your building have?')
-//            .openPopup()
-//            .keepInView;
-//}
-//
-//        //load controllers
-//        showControlButtons();
-//        if (isOpacityNotSet) {
-//            baseMap.addControl(opacitySlider);
-//            isOpacityNotSet = false;
-//        }
-//        opacitySlider.setOpacityLayer(marky);
-        // attaching function on map click
-
-        //change buttons
-//        var elem = document.getElementById("Register");
-//        if (elem.value == "Register Location") elem.value = "Done";
-//        else elem.value = "Done";
-
-        baseMap.on('dblclick', onMapClick);
-
-// Script for adding marker on map click
-        function onMapClick(e) {
-
-//            var geojsonFeature = {
-//                "type": "Feature",
-//                "properties": {},
-//                "geometry": {
-//                    "type": "Point",
-//                    "coordinates": [e.latlng.lat, e.latlng.lng]
-//                }
-//            }
-            //variable for marker
-            var marker;
-            //markers info JSON array
-            var markerInfo = {
-                info: []
-            };
-
-//            L.geoJson(geojsonFeature, {
-//
-//                pointToLayer: function (feature, latlng) {
-
-            marker = new L.marker(e.latlng, {
-
-                title: "Resource Location",
-                alt: "Resource Location",
-                riseOnHover: true,
-                draggable: true,
-
-            }).bindPopup("<input type='button' value='Delete' class='marker-delete-button'/>");
-            marker.on('click', onMarkerClick);
-
-            marker.on("popupopen", onPopupOpen);
-
-//                    return marker;
-//                }
-//            })
-            marker.addTo(baseMap);
-            markers[marker._leaflet_id] = marker;
-
-            $('#home').append(
-                    '<div class="item" id="' + marker._leaflet_id + '">Marker ' + marker._leaflet_id +
-                    ' - <a href="#" class="remove" id="' + marker._leaflet_id + '">remove</a></div>');
-
-//            $('#delete').append(
-//                    '<div class="item" id="' + marker._leaflet_id + '">Marker ' + marker._leaflet_id +
-//                    ' - <a href="#" class="remove" id="' + marker._leaflet_id + '">remove</a></div>');
-
-            //record marker information a
-            function pushMarkerInfo(){
-
-            }
-
-            // Remove a marker
-            $('.remove').on("click", function () {
-                // Remove the marker
-                baseMap.removeLayer(markers[$(this).attr('id')]);
-
-                var idNo = $(this).attr('id');
-                // Remove the link
-                $(this).parent('div').remove();
-
-                $('#home').find('#'+ idNo).remove();
-            });
-
-            //On Mouseover the markers
-            $('.item').on("mouseover", function (e) {
-                $('div').removeClass('active-marker');
-                $(this).addClass('active-marker');
-                for (var mark in markers) {
-                    markers[mark].setIcon(smallIcon);
-                }
-                markerFunction($(this).attr('id'))
-                markers[$(this).attr('id')].setIcon(bigIcon);
-                var mid = $(this).attr('id');
-                var LatLng = markers[mid].getLatLng();
-                var offset = baseMap.panTo(LatLng);
-                baseMap.panBy(offset);
-            });
-        }
-
-        //open marker popup
-        function markerFunction(id) {
-            markers[id].openPopup();
-
-            //Extra added stuff
-//          $(".marker-delete-button:visible").click(function(){
-//              // Remove the marker
-//              baseMap.removeLayer(markers[$(this).attr('id')]);
-//
-//              // Remove the link
-//              $(this).parent('div').remove();
-//          })
-//until here
-        }
-
-
-// Function to handle delete as well as other events on marker popup open
-        function onPopupOpen() {
-
-            var tempMarker = this;
-
-            //var tempMarkerGeoJSON = this.toGeoJSON();
-
-            //var lID = tempMarker._leaflet_id; // Getting Leaflet ID of this marker
-
-            // To remove marker on click of delete
-//            $(".marker-delete-button:visible").click(function () {
-//                baseMap.removeLayer(tempMarker);
-//            });
-            // Remove the marker
-//            baseMap.removeLayer(markers[$(this).attr('id')]);
-//
-//            // Remove the link
-//            $(this).parent('div').remove();
-        }
-
-    }
-
-    //Set
-    function onMarkerClick(e) {
-        $('div').removeClass('active-marker');
-        $('div #' + e.target._leaflet_id).addClass('active-marker');
-        for (var mark in markers) {
-            markers[mark].setIcon(smallIcon);
-        }
-        var offset = baseMap.panTo(markers[mark].getLatLng());
-        baseMap.panBy(offset);
-    }
-
-    //remove the markers
-    //    function removeMarky() {
-    //        baseMap.on('dblclick', removeMarker);
-    //        function removeMarker(e) {
-    //            var daLocation = e.latlng;
-    //            baseMap.removeLayer();
-    //        }
-    //    }
-
-
-    //remove svg map
-    //    function removeMarker(){
-    //        //remove layer
-    ////        baseMap.removeLayer(svgMapOverlay);
-    //        document.getElementById("Register").value == "Register Location";
-    //        hideControlButtons();
-    ////        clearValuesInTextBox();
-    //        opacitySlider.removeFrom(baseMap);
-    //        isOpacityNotSet = true;
-    //
-    //    }
-
-
-</script>
-
-<script type="text/javascript">
-    $(function () {
-        // Setup form validation on the #register-form element
-        $("#register-form").validate({
-            // Specify the validation rules
-            rules: {
-                locationName: {
-                    required: true
-                    , minlength: 3
-                }
-                , address: {
-                    required: true
-                }
-                , floornumbers: {
-                    required: true
-                }
-                , agree: "required"
-            }, // Specify the validation error messages
-            messages: {
-                firstname: {
-                    reuired: "Please enter the location name"
-                    , minlength: "Location name should be more than 3 characters"
-                }
-                , address: {
-                    required: "Please enter your correct address"
-                }
-                , floornumbers: {
-                    required: "Please provide floor number"
-                }
-            }
-            , submitHandler: function (form) {
-                form.submit();
-            }
-        });
-    });
 </script>
 
 <!--scripts-->
@@ -566,10 +234,6 @@
     //marker
     //    var marky;
 
-    //utils
-    //    var isOpacityNotSet = true;
-    //    var deviation = 0.0001;
-    //    var opacitySlider = new L.Control.opacitySlider();
 
     //on load
     initialiseMap();
@@ -581,6 +245,7 @@
         baseMap = L.map('openStreetMapId').locate({setView: true, maxZoom: 17, animate: true, duration: 3});
 
         var sidebar = L.control.sidebar('sidebar', {position: 'right'}).addTo(baseMap);
+
         //Rendering resources
         L.tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
             maxZoom: 19,
@@ -645,7 +310,7 @@
 //        if (elem.value == "Register Location") elem.value = "Done";
 //        else elem.value = "Done";
 
-        baseMap.on('dblclick', onMapClick);
+        baseMap.once('click', onMapClick);
 
 // Script for adding marker on map click
         function onMapClick(e) {
@@ -658,8 +323,10 @@
 //                    "coordinates": [e.latlng.lat, e.latlng.lng]
 //                }
 //            }
+
             //variable for marker
             var marker;
+
             //markers info JSON array
             var markerInfo = {
                 info: []
@@ -681,24 +348,62 @@
 
             marker.on("popupopen", onPopupOpen);
 
-//                    return marker;
-//                }
-//            })
             marker.addTo(baseMap);
             markers[marker._leaflet_id] = marker;
 
+            //console.log(marker);
+
+            //append the information to the sidebar
             $('#home').append(
-                    '<div class="item" id="' + marker._leaflet_id + '">Marker ' + marker._leaflet_id +
-                    ' - <a href="#" class="remove" id="' + marker._leaflet_id + '">remove</a></div>');
+                    '<div class="item" id="' + marker._leaflet_id + '" data-lat="' + marker._latlng.lat + '" data-lng="' + marker._latlng.lng + '" data-toggle="collapse" data-target="marker_content_panel_' + marker._leaflet_id + '">' +
+                    '<h3>Marker ' + marker._leaflet_id + '</h3>' +
+                    '<a href="#" class="remove" id="' + marker._leaflet_id + '">' +
+                    '<span class="icon fw-stack">' +
+                    '<i class="fw fw-delete fw-stack-1x"></i>' +
+                    '</span> Remove' +
+                    '</a>' +
+                    '<form action="" method="post" id="register-form" novalidate="novalidate">' +
+                    '<div class="form-group">' +
+                    '<label for="locationName">Location Name *</label>' +
+                    '<input type="text" class="form-control" name="locationName" placeholder="Home">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="address">Address *</label>' +
+                    '<input type="text" class="form-control" name="address" placeholder="13/13, Mockingbird Ave, New York">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<label for="floors">No. of Floors *</label>' +
+                    '<input type="number" class="form-control required" name="floors" placeholder="Number of floors">' +
+                    '</div>' +
+                    '<div class="form-group">' +
+                    '<button type="button" class="btn btn-primary" data-toggle="update-data">Save</button>' +
+                    '<button type="button" class="btn btn-secondary">Edit Floors</button>' +
+                    '</div>' +
+                    '</form>' +
+                    '</div>');
+
+//            id selector of list items
+            var idNo = $('.item').attr('id');
+
+////            toggle form
+//            $(".item").click(function() {
+//                $( "#"+idNo+" .item" ).slideToggle( "slow", function() {
+//                    // Animation complete.
+//                });
+//            });
+
+//                    return marker;
+//                }
+//            })
 
 //            $('#delete').append(
 //                    '<div class="item" id="' + marker._leaflet_id + '">Marker ' + marker._leaflet_id +
 //                    ' - <a href="#" class="remove" id="' + marker._leaflet_id + '">remove</a></div>');
 
             //record marker information a
-            function pushMarkerInfo(){
-
-            }
+//            function pushMarkerInfo(){
+//
+//            }
 
             // Remove a marker
             $('.remove').on("click", function () {
@@ -709,8 +414,18 @@
                 // Remove the link
                 $(this).parent('div').remove();
 
-                $('#home').find('#'+ idNo).remove();
+                $('#home').find('#' + idNo).remove();
             });
+
+
+            //expand item
+//            $( '.item' ).on("click", function() {
+//
+//                if ( $(this).height() != 50){
+//                    $( this ).animate({ height: 100 }, 500 );}
+//                else{
+//                    $( this ).animate({ height: 200 }, 500 );}
+//            });
 
             //On Mouseover the markers
             $('.item').on("mouseover", function (e) {
@@ -764,18 +479,18 @@
 //            $(this).parent('div').remove();
         }
 
+        //Set
+        function onMarkerClick(e) {
+            $('div').removeClass('active-marker');
+            $('div #' + e.target._leaflet_id).addClass('active-marker');
+            for (var mark in markers) {
+                markers[mark].setIcon(smallIcon);
+            }
+            var offset = baseMap.panTo(markers[mark].getLatLng());
+            baseMap.panBy(offset);
+        }
     }
 
-    //Set
-    function onMarkerClick(e) {
-        $('div').removeClass('active-marker');
-        $('div #' + e.target._leaflet_id).addClass('active-marker');
-        for (var mark in markers) {
-            markers[mark].setIcon(smallIcon);
-        }
-        var offset = baseMap.panTo(markers[mark].getLatLng());
-        baseMap.panBy(offset);
-    }
 
     //remove the markers
     //    function removeMarky() {
@@ -802,43 +517,6 @@
 
 </script>
 
-<script type="text/javascript">
-    $(function () {
-        // Setup form validation on the #register-form element
-        $("#register-form").validate({
-            // Specify the validation rules
-            rules: {
-                locationName: {
-                    required: true
-                    , minlength: 3
-                }
-                , address: {
-                    required: true
-                }
-                , floornumbers: {
-                    required: true
-                }
-                , agree: "required"
-            }, // Specify the validation error messages
-            messages: {
-                firstname: {
-                    reuired: "Please enter the location name"
-                    , minlength: "Location name should be more than 3 characters"
-                }
-                , address: {
-                    required: "Please eneter your correct address"
-                }
-                , floornumbers: {
-                    required: "Please provide a password"
-                    , minlength: "Your password must be at least 5 characters long"
-                }
-            }
-            , submitHandler: function (form) {
-                form.submit();
-            }
-        });
-    });
-</script>
 <script src="js/createJSON.js"></script>
 
 
