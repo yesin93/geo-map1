@@ -57,7 +57,7 @@
 			"lng": 79.84821438789369
 		},
 		"floors": 2,
-		"Id": 123,
+		"id": 123,
 		"locationName": "Train Station",
 		"floorplan": [{
 			"floor1": {

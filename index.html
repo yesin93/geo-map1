@@ -1,20 +1,6 @@
 <!DOCTYPE html>
-<!--
-~   Copyright (c) WSO2 Inc. (http://wso2.com) All Rights Reserved.
-~
-~   Licensed under the Apache License, Version 2.0 (the "License");
-~   you may not use this file except in compliance with the License.
-~   You may obtain a copy of the License at
-~
-~        http://www.apache.org/licenses/LICENSE-2.0
-~
-~   Unless required by applicable law or agreed to in writing, software
-~   distributed under the License is distributed on an "AS IS" BASIS,
-~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-~   See the License for the specific language governing permissions and
-~   limitations under the License.
--->
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -45,6 +31,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
+
 <body class="sticky-footer fixed">
 
 <!-- header -->
@@ -56,32 +43,9 @@
                 <span>IoT Server Floorplan Visualizer</span>
             </a>
         </div>
-        <!--<ul class="nav navbar-right">
-            <li class="visible-inline-block">
-                <a class="dropdown" data-toggle="dropdown" aria-expanded="false">
-                       <span class="icon fw-stack">
-                          <i class="fw fw-circle fw-stack-2x"></i>
-                          <i class="fw fw-user fw-stack-1x fw-inverse"></i>
-                       </span>
-                    <span class="hidden-xs add-margin-left-1x">John Doe <span class="caret"></span></span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right slideInDown" role="menu">
-                    <li><a href="#">Profile Settings</a></li>
-                    <li><a href="#">Logout</a></li>
-                </ul>
-            </li>
-        </ul>-->
     </div>
 </header>
 <!-- /header -->
-
-<!-- breadcrumb -->
-<!--<div class="breadcrumb-wrapper">-->
-<!--<ol class="breadcrumb">-->
-<!--<li><a href="/"><i class="icon fw fw-home"></i> <span class="hidden-xs">Map</span></a></li>-->
-<!--</ol>-->
-<!--</div>-->
-
 
 <!-- navbar -->
 <div class="navbar-wrapper">
@@ -105,7 +69,7 @@
                                 <span class="icon fw-stack">
                                     <i class="fw fw-add fw-helper fw-helper-circle-outline"></i>
                                 </span>
-                            Add Location
+                            Add Building
                         </a>
                     </li>
                 </ul>
@@ -133,48 +97,10 @@
         <div class="sidebar-content">
             <div class="sidebar-pane" id="home">
                 <h1 class="sidebar-header">
-                    Home
+                    Buildings
                     <span class="sidebar-close"><i class="fa fa-caret-right"></i></span>
                 </h1>
             </div>
-
-            <!--&lt;!&ndash;Rough view of form &ndash;&gt;-->
-            <!--<div class="sidebar-pane" id="info">-->
-                <!--<h1 class="sidebar-header">Pull Device/Location Info<span class="sidebar-close"><i-->
-                        <!--class="fa fa-caret-right"></i></span></h1>-->
-                <!--&lt;!&ndash;Info form editable&ndash;&gt;-->
-                <!--<div class="container-fluid">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-12 col-sm-12 col-xs-12">-->
-                            <!--<h1>Device Details</h1>-->
-
-                            <!--<form action="" method="post" id="register-form" novalidate="novalidate">-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="locationName">Location Name*</label>-->
-                                    <!--<input type="text" class="form-control" name="locationName" id="locationName"-->
-                                           <!--placeholder="Home"></div>-->
-                                <!--<br/>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="address">Address*</label>-->
-                                    <!--<input type="text" class="form-control" name="address" id="address"-->
-                                           <!--placeholder="13/13, Mockingbird Ave, New York"></div>-->
-                                <!--<br/>-->
-                                <!--<div class="form-group">-->
-                                    <!--<label for="floors">No. of Floors*</label>-->
-                                    <!--<input type="number" class="form-control required" id="floors" name="floors"-->
-                                           <!--placeholder="Number of floors"></div>-->
-                                <!--<br/>-->
-                                <!--&lt;!&ndash;            <div style="margin-left:140px;">&ndash;&gt;-->
-                                <!--<button type="button" class="btn btn-secondary" onclick="pushStuff()">Save</button>-->
-                                <!--<button type="button" class="btn btn-primary">View Devices</button>-->
-                            <!--</form>-->
-
-
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-
             <div class="sidebar-pane" id="messages">
                 <h1 class="sidebar-header">Messages<span class="sidebar-close"><i class="fa fa-caret-right"></i></span>
                 </h1>
@@ -228,12 +154,21 @@
         }
     });
 
+    //custom icon
+    var buildingIcon = L.icon({
+        iconUrl: 'building-marker.png',
+        shadowUrl: 'marker-shadow.png',
+
+        iconSize:     [30, 90], // size of the icon
+        shadowSize:   [50, 64], // size of the shadow
+//        iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+//        shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+    });
+
     //THE ICONS
     var bigIcon = new L.Icon.Big();
     var smallIcon = new L.Icon.Default();
-
-    //marker
-    //    var marky;
 
 
     //on load
@@ -268,18 +203,8 @@
 
         baseMap.on('locationerror', onLocationError);
 
-
         var popup = L.popup();
 
-//
-//        function onMapClick(e) {
-//            popup
-//                    .setLatLng(e.latlng)
-//                    .setContent("You clicked the map at " + e.latlng.toString())
-//                    .openOn(baseMap);
-//        }
-//
-//        baseMap.on('click', onMapClick);
     }
 
     //    reading data from JSON
@@ -293,28 +218,18 @@
         });
     });
 
-    var markerID;
-    //open new window onclick
-    function openWin() {
-        window.open("visualizer.html?id='+markerID+'");
+    function openWin(id) {
+        window.open("visualizer.html?id=" + id);
     }
-
-    $('#home').on('click', '[data-toggle=save-data]', function(e){
-        if($(e.target).closest('form').valid()) {
-            var id = element.prop('id');
-            markerID = id;
-            openWin();
-        }
-    });
 
     // Script for adding marker
     function addingMarker(e, d) {
-        console.log(d);
 
         var cord,
             locationName,
             address,
-            floorCount;
+            floorCount,
+            markerId;
 
         if(e !== null){
             cord = e.latlng;
@@ -327,6 +242,7 @@
             locationName = d.locationName;
             address = d.address;
             floorCount = d.floors;
+            markerId = d.id;
         }
 
         //variable for marker
@@ -338,55 +254,65 @@
         };
 
         marker = new L.marker(cord, {
-
             title: "Resource Location",
             alt: "Resource Location",
             riseOnHover: true,
             draggable: true
-
         }).bindPopup("<input type='button' value='Delete' class='marker-delete-button'/>");
+
         marker.on('click', onMarkerClick);
-
         marker.on("popupopen", onPopupOpen);
-
         marker.addTo(baseMap);
+
+        //marker._leaflet_id = markerId;
+        //marker._icon.id = markerId;
         markers[marker._leaflet_id] = marker;
-//        markerID = marker._leaflet_id;
-        //console.log(marker);
 
         //append the information to the sidebar
         $('#home').append(
-                '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">'+
-                '<div class="item" id="' + marker._leaflet_id + '" data-lat="' + marker._latlng.lat + '" data-lng="' + marker._latlng.lng + '" data-toggle="collapse" data-target="marker_content_panel_' + marker._leaflet_id + '">' +
-                '<h3>Marker ' + marker._leaflet_id + '</h3>' +
-                '<a href="#" class="remove" id="' + marker._leaflet_id + '">' +
-                '<span class="icon fw-stack">' +
-                '<i class="fw fw-delete fw-stack-1x"></i>' +
-                '</span> Remove' +
-                '</a>' +
-                '<form action="" method="post" id="register-form" novalidate="novalidate">' +
-                '<div class="form-group">' +
-                '<label for="locationName">Location Name *</label>' +
-                '<input type="text" class="form-control" name="locationName" placeholder="Home" value="' + locationName + '">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="address">Address *</label>' +
-                '<input type="text" class="form-control" name="address" placeholder="13/13, Mockingbird Ave, New York" value="'+address+'">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<label for="floors">No. of Floors *</label>' +
-                '<input type="number" class="form-control required" name="floors" placeholder="Number of floors" value="'+floorCount+'">' +
-                '</div>' +
-                '<div class="form-group">' +
-                '<button type="button" class="btn btn-primary" data-toggle="update-data">Save</button>' +
-                '<button type="button" class="btn btn-secondary" toggle-data="save-data">Edit Floors</button>' +
-                '</div>' +
-                '</form>' +
+        <!-- collapse -->
+                '<div class="item panel-group add-margin-bottom-2x" role="tablist" aria-multiselectable="false" id="' + marker._leaflet_id + '" data-lat="' + marker._latlng.lat + '" data-lng="' + marker._latlng.lng + '" >' +
+                //'<div class="" role="tablist" aria-multiselectable="false">'+
+                    '<div class="panel panel-default">'+
+                        '<div class="panel-heading" role="tab" id="heading' + marker._leaflet_id + '" data-toggle="collapse" href="#accordion' + marker._leaflet_id + '" aria-controls="accordion' + marker._leaflet_id + '">'+
+                            '<h4 class="panel-title">Marker ' + marker._leaflet_id + '</h4>'+
+//                                '<div class="btn-group">' +
+//                                    '<button type="button" class="btn btn-primary" data-toggle="edit-floors">Edit Floors</button>' +
+//                                    '<button type="button" class="btn btn-secondary remove" data-toggle="">Remove</button>' +
+//                                   '<div class="clearfix"></div>'+
+//                                '</div>' +
+                            '<a href="#" class="remove" id="' + marker._leaflet_id + '">' +
+                                '<span class="icon fw-stack">' +
+                                '<i class="fw fw-delete fw-stack-1x"></i>' +
+                                '</span> Remove' +
+                            '</a>' +
+                        '</div>'+
+                '<div id="accordion' + marker._leaflet_id + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading' + marker._leaflet_id + '">'+
+                    '<div class="panel-body">'+
+                        '<form action="" method="post" id="register-form" novalidate="novalidate">' +
+                            '<div class="form-group">' +
+                                '<label for="locationName">Location Name *</label>' +
+                                '<input type="text" class="form-control" name="locationName" placeholder="Home" value="' + locationName + '">' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label for="address">Address *</label>' +
+                                '<input type="text" class="form-control" name="address" placeholder="13/13, Mockingbird Ave, New York" value="'+address+'">' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<label for="floors">No. of Floors *</label>' +
+                                '<input type="number" class="form-control required" name="floors" placeholder="Number of floors" value="'+floorCount+'">' +
+                            '</div>' +
+                            '<div class="form-group">' +
+                                '<button type="button" class="btn btn-primary" data-toggle="update-data">Save</button>' +
+                                '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
+                            '</div>' +
+                        '</form>' +
+                    '</div>'+
+                '</div>'+
+            '</div>'+
+//       '</div>'+
                 '</div>');
-
-//            id selector of list items
-        var idNo = $('.item').attr('id');
-
+       <!-- /collapse -->
 
         // Remove a marker
         $('.remove').on("click", function () {
@@ -401,13 +327,13 @@
         });
 
         //On Mouseover the markers
-        $('.item').on("mouseover", function (e) {
+        $('.panel-default').on("mouseover", function (e) {
             $('div').removeClass('active-marker');
             $(this).addClass('active-marker');
             for (var mark in markers) {
                 markers[mark].setIcon(smallIcon);
             }
-            markerFunction($(this).attr('id'))
+            markerFunction($(this).attr('id'));
             markers[$(this).attr('id')].setIcon(bigIcon);
             var mid = $(this).attr('id');
             var LatLng = markers[mid].getLatLng();
@@ -419,37 +345,19 @@
     //open marker popup
     function markerFunction(id) {
         markers[id].openPopup();
-
-        //Extra added stuff
-//          $(".marker-delete-button:visible").click(function(){
-//              // Remove the marker
-//              baseMap.removeLayer(markers[$(this).attr('id')]);
-//
-//              // Remove the link
-//              $(this).parent('div').remove();
-//          })
-//until here
     }
+
+    $('#home').on('click', '[data-toggle=edit-floors]', function(e){
+        if($(e.target).closest('form').valid()) {
+            var markerID = $(e.target).closest('.item').prop('id');
+            openWin(markerID);
+        }
+    });
 
 
     // Function to handle delete as well as other events on marker popup open
     function onPopupOpen() {
-
         var tempMarker = this;
-
-        //var tempMarkerGeoJSON = this.toGeoJSON();
-
-        //var lID = tempMarker._leaflet_id; // Getting Leaflet ID of this marker
-
-        // To remove marker on click of delete
-//            $(".marker-delete-button:visible").click(function () {
-//                baseMap.removeLayer(tempMarker);
-//            });
-        // Remove the marker
-//            baseMap.removeLayer(markers[$(this).attr('id')]);
-//
-//            // Remove the link
-//            $(this).parent('div').remove();
     }
 
     //Set
@@ -466,29 +374,6 @@
     function onAddMarker() {
         baseMap.once('click', addingMarker);
     }
-
-
-    //remove the markers
-    //    function removeMarky() {
-    //        baseMap.on('dblclick', removeMarker);
-    //        function removeMarker(e) {
-    //            var daLocation = e.latlng;
-    //            baseMap.removeLayer();
-    //        }
-    //    }
-
-
-    //remove svg map
-    //    function removeMarker(){
-    //        //remove layer
-    ////        baseMap.removeLayer(svgMapOverlay);
-    //        document.getElementById("Register").value == "Register Location";
-    //        hideControlButtons();
-    ////        clearValuesInTextBox();
-    //        opacitySlider.removeFrom(baseMap);
-    //        isOpacityNotSet = true;
-    //
-    //    }
 
 
 </script>

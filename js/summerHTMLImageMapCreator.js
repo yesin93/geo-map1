@@ -6,6 +6,21 @@
  * Released under the MIT license
  */
 
+var getUrlParameter = function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+        sParameterName = sURLVariables[i].split('=');
+
+        if (sParameterName[0] === sParam) {
+            return sParameterName[1] === undefined ? true : sParameterName[1];
+        }
+    }
+};
+
 var summerHtmlImageMapCreator = (function() {
     'use strict';
 
@@ -425,6 +440,8 @@ var summerHtmlImageMapCreator = (function() {
                 });    
             }
         };
+
+
         
         // Will moved from the main module
         var localStorageWrapper = (function() {
@@ -444,6 +461,16 @@ var summerHtmlImageMapCreator = (function() {
                 restore : function() {
 
                     $.get('result.json', function (data) {
+
+                        var id = getUrlParameter("id");
+                        console.log(data);
+                        console.log(id);
+
+                        $.each(data.metaData, function(){
+                            if(data.metaData.id == 81){
+                                areasIO.fromJSON(JSON.stringify(data.metaData.floorplan.floor1));
+                            }
+                        });
 
                         // console.log(JSON.stringify(data.metaData[0].floorplan[0].floor1));
                         // console.log(window.localStorage.getItem(KEY_NAME));

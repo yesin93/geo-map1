@@ -24,12 +24,12 @@ $('form').validate({
         , agree: "required"
     }, // Specify the validation error messages
     messages: {
-        firstname: {
+        locationName: {
             reuired: "Please enter the location name"
             , minlength: "Location name should be more than 3 characters"
         }
         , address: {
-            required: "Please enter your correct address"
+            required: "Please enter your address"
         }
         , floornumbers: {
             required: "Please provide floor number"
@@ -83,7 +83,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
 
         //get the JSON obj array
             $.get('result.json', function (data) {
-data.metaData.push(markerDetails);
+                data.metaData.push(markerDetails);
                 console.log(data);
 
             });
