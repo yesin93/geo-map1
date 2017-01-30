@@ -106,17 +106,26 @@
                     <li id="from_html">
                         <a href="#">From html</a>
                     </li>
-                    <li id="edit"><a href="#">Edit</a>
+                    <li id="edit">
+                        <a href="#">Edit</a>
                     </li>
-                    <li id="to_html"><a href="#">To html</a>
+                    <li id="to_html">
+                        <a href="#">To html</a>
                     </li>
-                    <li id="preview"><a href="#">Preview</a>
+                    <li id="preview">
+                        <a href="#">Preview</a>
                     </li>
-                    <li id="clear"><a href="#">Clear</a>
+                    <li id="clear">
+                        <a href="#">Clear</a>
                     </li>
-                    <li id="new_image"><a href="#">New image</a>
+                    <li id="new_image">
+                        <a href="#">New image</a>
                     </li>
-                    <li id="show_help"><a href="#">User guide</a>
+                    <li id="show_help">
+                        <a href="#">User guide</a>
+                    </li>
+                    <li id="show_coords" class = "sidebar-toggle-btn" data-toggle="sidebar" data-target="#right-sidebar-overlay" aria-expanded="false">
+                        <a href="#">Get Coords on Click</a>
                     </li>
                 </ul>
             </div><!--/.nav-collapse -->
@@ -130,6 +139,7 @@
 <div class="page-content-wrapper">
 
     <div id="coords"></div>
+    <div id="click-coords"></div>
 
     <div class="sidebar-wrapper sidebar-nav toggled" data-side="left" data-width="51" data-container=".page-content-wrapper" data-container-divide="true" data-fixed-offset-top="0" data-offset-top="80">
         <div class="nano">
@@ -194,6 +204,21 @@
             </div>
         </div>
     </div>
+
+
+    <!-- right-sidebar-toggle-buttons -->
+    <!--<button class="btn btn-primary sidebar-toggle-btn" data-toggle="sidebar" data-target="#right-sidebar-overlay" aria-expanded="false" rel="notifications-sidebar">-->
+        <!--Right sidebar overlay-->
+    <!--</button>-->
+    <!-- /right-sidebar-toggle-buttons -->
+
+    <!-- right-sidebars -->
+    <div class="sidebar-wrapper example-sidebar" id="right-sidebar-overlay" data-side="right" data-width="260" style="height: 786px;">
+        ...
+    </div>
+    <!-- /right-sidebars -->
+
+
 
     <!-- For html image map code -->
     <div id="code">

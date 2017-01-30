@@ -6,6 +6,7 @@
  * Released under the MIT license
  */
 
+//get's the URL query parameter that was sent from the GeoMap component
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
         sURLVariables = sPageURL.split('&'),
@@ -20,6 +21,8 @@ var getUrlParameter = function getUrlParameter(sParam) {
         }
     }
 };
+
+
 
 var summerHtmlImageMapCreator = (function() {
     'use strict';
@@ -175,6 +178,7 @@ var summerHtmlImageMapCreator = (function() {
                 img : utils.id('img'),
                 container : utils.id('image'),
                 map : null
+
             },
             state = {
                 offset : {
@@ -237,11 +241,35 @@ var summerHtmlImageMapCreator = (function() {
                 }
             };
         })();
-        
+
+        //
+        //
+
+
+        // /* Display coordinates onclick*/
+        // var on_click_info = (function(){
+        //     var click_info = utils.id('click-coords');
+        //
+        //     return {
+        //         set : function(coords) {
+        //             click_info.innerHTML = 'x: ' + coords.x + ', ' + 'y: ' + coords.y;
+        //         },
+        //         empty : function() {
+        //             click_info.innerHTML = '';
+        //         }
+        //     };
+        // })();
+
+        /*on mousemove the coords will be displayed*/
         domElements.container.addEventListener('mousemove', function(e){
             cursor_position_info.set(utils.getRightCoords(e.pageX, e.pageY));
         }, false);
 
+        // domElements.container.addEventListener('click', function(e){
+        //     on_click_info.set(utils.getRightCoords(e.pageX, e.pageY));
+        // }, false);
+
+        /*on mousemleave the coords will be cleared*/
         domElements.container.addEventListener('mouseleave', function(){
             cursor_position_info.empty();
         }, false);
@@ -301,11 +329,23 @@ var summerHtmlImageMapCreator = (function() {
                 
                 state.newArea = Area.CONSTRUCTORS[state.currentType].createAndStartDrawing(
                     utils.getRightCoords(e.pageX, e.pageY)
+
                 );
+
+                // returns the coordinates of the SVG onclick
+                console.log(utils.getRightCoords(e.pageX, e.pageY));
             }
         }
     
         domElements.container.addEventListener('click', onSvgClick, false);
+
+        /*get the coordinates on SVG layer click*/
+        function placeDevice(e){
+            if(state.appMode === 'editing'){
+                utils.getRightCoords(e.pageX, e.pageY)
+            };
+        }
+        domElements.container.addEventListener('click', placeDevice, false);
         
         /* Add dblclick event for svg */
         function onAreaDblClick(e) {
@@ -486,6 +526,8 @@ var summerHtmlImageMapCreator = (function() {
             domElements : domElements,
             saveInLocalStorage : localStorageWrapper.save,
             loadFromLocalStorage : localStorageWrapper.restore,
+            /*get the coordinates on SVG*/
+            // clickPic: on_click_info.set(utils.getRightCoords(e.pageX,e.pageY)),
             hide : function() {
                 utils.hide(domElements.container);
                 return this;
@@ -653,6 +695,7 @@ var summerHtmlImageMapCreator = (function() {
                 state.events.length = 0;
                 return this;
             },
+            //printing html map in a lower div
             getHTMLCode : function(arg) {
                 var html_code = '';
                 if (arg) {
@@ -670,7 +713,9 @@ var summerHtmlImageMapCreator = (function() {
                         html_code += x.toHTMLMapElementString();
                     });
                 }
+                // console.log(html_code.toString());
                 return html_code;
+
             }
         };
     })();
@@ -2711,8 +2756,9 @@ var summerHtmlImageMapCreator = (function() {
             to_html = utils.id('to_html'),
             preview = utils.id('preview'),
             new_image = utils.id('new_image'),
-            show_help = utils.id('show_help');
-        
+            show_help = utils.id('show_help'),
+            click_coords = utils.id('show_coords');
+
         function deselectAll() {
             utils.foreach(all, function(x) {
                 x.classList.remove(Area.CLASS_NAMES.SELECTED);
@@ -2836,6 +2882,12 @@ var summerHtmlImageMapCreator = (function() {
             
             e.preventDefault();
         }
+
+        function clickForCoords(e){
+            // utils.getRightCoords()
+
+            e.preventDefault();
+        }
         
         save.addEventListener('click', onSaveButtonClick, false);
         load.addEventListener('click', onLoadButtonClick, false);
@@ -2849,6 +2901,7 @@ var summerHtmlImageMapCreator = (function() {
         edit.addEventListener('click', onEditButtonClick, false);
         new_image.addEventListener('click', onNewImageButtonClick, false);
         show_help.addEventListener('click', onShowHelpButtonClick, false);
+        show_coords.addEventListener('click', clickForCoords, false);
     })();
 
 })();
