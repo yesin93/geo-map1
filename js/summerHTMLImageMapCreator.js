@@ -750,6 +750,88 @@ var summerHtmlImageMapCreator = (function() {
     };
 
 
+    /*
+     *
+     *
+     * marker modification
+     *
+     * */
+
+    /**
+     * The constructor of helpers points
+     * Helper is small svg-rectangle with some actions
+     *
+     * @constructor
+     * @param node {DOMElement} - a node for inserting helper
+     * @param x {number} - x-coordinate of helper
+     * @param y {number} - y-coordinate of helper
+     * @param action {string} - an action by click of this helper (e.g. 'move')
+     */
+    function Marking(node, x, y, action) {
+        this._el = document.createElementNS(Area.SVG_NS, 'rect');
+        this._el.classList.add(Marking.CLASS_NAME);
+        this._el.setAttribute('height', Marking.SIZE);
+        this._el.setAttribute('width', Marking.SIZE);
+        this._el.setAttribute('x', x + Marking.OFFSET);
+        this._el.setAttribute('y', y + Marking.OFFSET);
+
+        node.appendChild(this._el);
+
+        this._el.action = action; // TODO: move 'action' from dom el to data-attr
+        this._el.classList.add(Marking.ACTIONS_TO_CURSORS[action]);
+    }
+
+    Marking.SIZE = 9;
+    Marking.OFFSET = -Math.ceil(Marking.SIZE / 2);
+    Marking.CLASS_NAME = 'device-marker';
+//cursor graphics
+    Marking.ACTIONS_TO_CURSORS = {
+        'move'            : 'move',
+        'editLeft'        : 'e-resize',
+        'editRight'       : 'w-resize',
+        'editTop'         : 'n-resize',
+        'editBottom'      : 's-resize',
+        'editTopLeft'     : 'nw-resize',
+        'editTopRight'    : 'ne-resize',
+        'editBottomLeft'  : 'sw-resize',
+        'editBottomRight' : 'se-resize',
+        'movePoint'       : 'pointer'
+    };
+
+    /**
+     * Set coordinates for this helper
+     *
+     * @param x {number} - x-coordinate
+     * @param y {number} - y-coordinate
+     * @returns {Helper}
+     */
+    Marking.prototype.setCoords = function(x, y) {
+        this._el.setAttribute('x', x + Marking.OFFSET);
+        this._el.setAttribute('y', y + Marking.OFFSET);
+
+        return this;
+    };
+
+    /**
+     * Set id of this helper in list of parent's helpers
+     *
+     * @param id {number}
+     * @returns {Helper}
+     */
+    Marking.prototype.setId = function(id) {
+        // TODO: move n-field from DOM-element to data-attribute
+        this._el.n = id;
+
+        return this;
+    };
+
+    /*
+     *
+     *
+     * marker modification
+     *
+     * */
+
     /**
      * The constructor of helpers points
      * Helper is small svg-rectangle with some actions
@@ -1157,13 +1239,13 @@ var summerHtmlImageMapCreator = (function() {
         var x = coords.x - this._coords.width / 2,
             y = coords.y - this._coords.height / 2;
 
-        this._helpers = {
+        this._marker = {
             // center : new Helper(this._groupEl, x, y, 'move'),
             // top : new Helper(this._groupEl, x, y, 'editTop'),
             // bottom : new Helper(this._groupEl, x, y, 'editBottom'),
             // left : new Helper(this._groupEl, x, y, 'editLeft'),
             // right : new Helper(this._groupEl, x, y, 'editRight'),
-            topLeft : new Helper(this._groupEl, x, y, 'move'),
+            topLeft : new Marking(this._groupEl, x, y, 'move'),
             // topRight : new Helper(this._groupEl, x, y, 'editTopRight'),
             // bottomLeft : new Helper(this._groupEl, x, y, 'editBottomLeft'),
             // bottomRight : new Helper(this._groupEl, x, y, 'editBottomRight')
@@ -1176,11 +1258,11 @@ var summerHtmlImageMapCreator = (function() {
     /**
      * Set attributes for svg-elements of area by new parameters
      *
-     * -----top------
-     * |            |
-     * ---center_y---
-     * |            |
-     * ----bottom----
+     *
+     *
+     * []
+     *
+     *
      *
      * @param coords {Object} - Object with coords of this area (x, y, width, height)
      * @returns {Rectangle} - this rectangle
@@ -1201,7 +1283,7 @@ var summerHtmlImageMapCreator = (function() {
         // this._helpers.bottom.setCoords(center_x, bottom);
         // this._helpers.left.setCoords(left, center_y);
         // this._helpers.right.setCoords(right, center_y);
-        this._helpers.topLeft.setCoords(left, top);
+        this._marker.topLeft.setCoords(left, top);
         // this._helpers.topRight.setCoords(right, top);
         // this._helpers.bottomLeft.setCoords(left, bottom);
         // this._helpers.bottomRight.setCoords(right, bottom);
