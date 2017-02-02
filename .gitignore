@@ -8,8 +8,11 @@ target
 *.ipr
 .idea
 *.ids
+js/ImgMapCreator.js
+js/test marker.js
 # Mac crap
 .DS_Store
+
 
 
 *.class

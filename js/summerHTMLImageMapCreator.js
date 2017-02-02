@@ -1206,7 +1206,6 @@ var summerHtmlImageMapCreator = (function() {
         // this._helpers.bottomLeft.setCoords(left, bottom);
         // this._helpers.bottomRight.setCoords(right, bottom);
 
-
         return this;
     };
 
@@ -1241,10 +1240,10 @@ var summerHtmlImageMapCreator = (function() {
         };
 
         if (isSquare) {
-            newCoords = Rectangle.getSquareCoords(newCoords);
+            newCoords = Marker.getSquareCoords(newCoords);
         }
 
-        newCoords = Rectangle.getNormalizedCoords(newCoords);
+        newCoords = Marker.getNormalizedCoords(newCoords);
 
         this.redraw(newCoords);
 
@@ -1290,10 +1289,10 @@ var summerHtmlImageMapCreator = (function() {
         var tempParams = Object.create(this._coords);
 
         switch (editingType) {
-            // case 'move':
-            //     tempParams.x += dx;
-            //     tempParams.y += dy;
-            //     break;
+            case 'move':
+                tempParams.x += dx;
+                tempParams.y += dy;
+                break;
             //
             // case 'editLeft':
             //     tempParams.x += dx;
@@ -1313,12 +1312,12 @@ var summerHtmlImageMapCreator = (function() {
             //     tempParams.height += dy;
             //     break;
 
-            case 'editTopLeft':
-                tempParams.x += dx;
-                tempParams.y += dy;
-                tempParams.width -= dx;
-                tempParams.height -= dy;
-                break;
+            // case 'editTopLeft':
+            //     tempParams.x += dx;
+            //     tempParams.y += dy;
+            //     tempParams.width -= dx;
+            //     tempParams.height -= dy;
+            //     break;
 
             // case 'editTopRight':
             //     tempParams.y += dy;
@@ -1332,10 +1331,10 @@ var summerHtmlImageMapCreator = (function() {
             //     tempParams.height += dy;
             //     break;
             //
-            // case 'editBottomRight':
-            //     tempParams.width += dx;
             //     tempParams.height += dy;
             //     break;
+            // case 'editBottomRight':
+            //     tempParams.width += dx;
         }
 
         return tempParams;
@@ -1396,7 +1395,7 @@ var summerHtmlImageMapCreator = (function() {
      * @returns {string}
      */
     Marker.prototype.toString = function() {
-        return 'Rectangle {x: '+ this._coords.x +
+        return 'Marker {x: '+ this._coords.x +
             ', y: ' + this._coords.y;
     }
 
