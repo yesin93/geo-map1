@@ -226,6 +226,7 @@
 }
 #edit_details input[type=text] {
     background: #FFF;
+    color: black;
     font-size: 12px;
     font-family: sans-serif;
     padding: 2px 5px;

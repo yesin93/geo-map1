@@ -244,23 +244,6 @@ var summerHtmlImageMapCreator = (function() {
             };
         })();
 
-        //
-        //
-
-
-        // /* Display coordinates onclick*/
-        // var on_click_info = (function(){
-        //     var click_info = utils.id('click-coords');
-        //
-        //     return {
-        //         set : function(coords) {
-        //             click_info.innerHTML = 'x: ' + coords.x + ', ' + 'y: ' + coords.y;
-        //         },
-        //         empty : function() {
-        //             click_info.innerHTML = '';
-        //         }
-        //     };
-        // })();
 
         /*on mousemove the coords will be displayed*/
         domElements.container.addEventListener('mousemove', function(e){
@@ -295,7 +278,7 @@ var summerHtmlImageMapCreator = (function() {
                         var helper = e.target;
                         state.editType = helper.action;
 
-                        console.log(helper);
+                        // console.log(helper);
 
                         if (helper.n >= 0) { // if typeof selected_area == polygon
                             state.selectedArea.selected_point = helper.n;
@@ -337,6 +320,15 @@ var summerHtmlImageMapCreator = (function() {
 
                 );
 
+                if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
+                    state.selectedArea = e.target.parentNode.obj;
+                    //Displays the area attribute form
+                    console.log(state.selectedArea._attributes.title);
+                    // info.load(state.selectedArea, e.pageX, e.pageY);
+                }else{
+                    console.log("please place inside a room");
+                }
+
                 // returns the coordinates of the SVG onclick
                 console.log(utils.getRightCoords(e.pageX, e.pageY));
             }
@@ -355,8 +347,11 @@ var summerHtmlImageMapCreator = (function() {
         /* Add dblclick event for svg */
         function onAreaDblClick(e) {
             if (state.appMode === 'editing') {
+                //checking on double click whether element is of type rect
                 if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
                     state.selectedArea = e.target.parentNode.obj;
+                    //Displays the area attribute form
+                    // console.log(state.selectedArea._attributes.title);
                     info.load(state.selectedArea, e.pageX, e.pageY);
                 }
             }
@@ -956,7 +951,7 @@ var summerHtmlImageMapCreator = (function() {
     Area.SVG_NS = 'http://www.w3.org/2000/svg'; // TODO: move to main editor constructor
     Area.CLASS_NAMES = {
         SELECTED : 'selected',
-        WITH_HREF : 'with_href'
+        WITH_HREF : 'with_href' //The href component part for SVG Shapes
     };
     Area.CONSTRUCTORS = {
         rectangle : Rectangle,
@@ -1038,7 +1033,7 @@ var summerHtmlImageMapCreator = (function() {
     
     /**
      * Add class name for selected areas to this area
-     * 
+     * SVG select
      * @returns {Area} - this area
      */
     Area.prototype.select = function() {
@@ -1090,6 +1085,18 @@ var summerHtmlImageMapCreator = (function() {
         this._attributes.href = attributes.href;
         this._attributes.alt = attributes.alt;
         this._attributes.title = attributes.title;
+    };
+
+    /**
+     * Get title attributes
+     *
+     */
+    Area.prototype.getInfoAttributes = function(attributes) {
+        if(this._attributes.title != null){
+            console.log(this._attributes.title );
+        }else{
+            console.log("The room has not been named");
+        }
     };
     
     /**
@@ -1468,6 +1475,12 @@ var summerHtmlImageMapCreator = (function() {
      */
     Marker.prototype.onStopEditing = function(e) {
         this.setCoords(this.onProcessEditing(e));
+        // if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
+        //     app.state.selectedArea = e.target.parentNode.obj;
+        //     //Displays the area attribute form
+        //     console.log(app.state.selectedArea._attributes.title);
+        //     // info.load(state.selectedArea, e.pageX, e.pageY);
+        // }
         app.removeAllEvents();
     };
 
