@@ -274,6 +274,7 @@ var summerHtmlImageMapCreator = (function() {
                     };
 
 
+
                     if (e.target.classList.contains('helper')) {
                         var helper = e.target;
                         state.editType = helper.action;
@@ -292,7 +293,7 @@ var summerHtmlImageMapCreator = (function() {
                                      state.selectedArea.onStopEditing.bind(state.selectedArea));
                     } else if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
                         state.editType = 'move';
-                        
+
                         app.addEvent(app.domElements.container,
                                      'mousemove',
                                      state.selectedArea.onProcessEditing.bind(state.selectedArea))
@@ -317,16 +318,21 @@ var summerHtmlImageMapCreator = (function() {
                 
                 state.newArea = Area.CONSTRUCTORS[state.currentType].createAndStartDrawing(
                     utils.getRightCoords(e.pageX, e.pageY)
-
                 );
 
-                if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
-                    state.selectedArea = e.target.parentNode.obj;
-                    //Displays the area attribute form
-                    console.log(state.selectedArea._attributes.title);
-                    // info.load(state.selectedArea, e.pageX, e.pageY);
-                }else{
-                    console.log("please place inside a room");
+                console.log(state.currentType);
+
+                if(state.currentType === 'marker'){
+                    if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
+                        state.selectedArea = e.target.parentNode.obj;
+                        //Displays the area attribute form
+                        console.log(state.selectedArea._attributes.title);
+                        // console.log(state.newArea);
+                        // info.load(state.selectedArea, e.pageX, e.pageY);
+                    }else{
+                        console.log("please place inside a room");
+                    }
+
                 }
 
                 // returns the coordinates of the SVG onclick
@@ -1475,16 +1481,10 @@ var summerHtmlImageMapCreator = (function() {
      */
     Marker.prototype.onStopEditing = function(e) {
         this.setCoords(this.onProcessEditing(e));
-        // if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
-        //     app.state.selectedArea = e.target.parentNode.obj;
-        //     //Displays the area attribute form
-        //     console.log(app.state.selectedArea._attributes.title);
-        //     // info.load(state.selectedArea, e.pageX, e.pageY);
-        // }
         app.removeAllEvents();
     };
 
-    /**
+    /**l
      * Returns string-representation of this rectangle
      *
      * @returns {string}
