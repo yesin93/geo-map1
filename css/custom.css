@@ -107,3 +107,7 @@ background-color: rgba(255, 128, 0, 0.5)
 #save_details{
 padding:0px 5px 0px 5px;
 }
+
+/*device.selected{*/
+    /*pointer-events: none;*/
+/*}*/

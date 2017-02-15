@@ -274,7 +274,6 @@ var summerHtmlImageMapCreator = (function() {
                     };
 
 
-
                     if (e.target.classList.contains('helper')) {
                         var helper = e.target;
                         state.editType = helper.action;
@@ -300,6 +299,20 @@ var summerHtmlImageMapCreator = (function() {
                            .addEvent(app.domElements.container,
                                      'mouseup',
                                      state.selectedArea.onStopEditing.bind(state.selectedArea));
+
+                        // if(e.target.tagName === '.device-marker'){
+                        //     console.log(e.target.tagName);
+                        //     if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
+                        //         app.state.selectedArea = e.target.parentNode.obj;
+                        //         //Displays the area attribute form
+                        //         console.log(app.state.selectedArea);
+                        //         // console.log(state.newArea);
+                        //         // info.load(state.selectedArea, e.pageX, e.pageY);
+                        //     }else{
+                        //         console.log("please place inside a room");
+                        //     }
+                        //
+                        // }
                     }
                 } else {
                     app.deselectAll();
@@ -957,6 +970,7 @@ var summerHtmlImageMapCreator = (function() {
     Area.SVG_NS = 'http://www.w3.org/2000/svg'; // TODO: move to main editor constructor
     Area.CLASS_NAMES = {
         SELECTED : 'selected',
+        MARKER_EDIT: 'marker-clicked',
         WITH_HREF : 'with_href' //The href component part for SVG Shapes
     };
     Area.CONSTRUCTORS = {
@@ -1048,6 +1062,7 @@ var summerHtmlImageMapCreator = (function() {
         
         return this;
     };
+
     
     /**
      * Remove class name for selected areas from this area
@@ -1246,7 +1261,7 @@ var summerHtmlImageMapCreator = (function() {
             height : coords.height || 0
         };
 
-        this._el = document.createElementNS(Area.SVG_NS, 'device');
+        this._el = document.createElementNS(Area.SVG_NS, 'rect');
         this._groupEl.appendChild(this._el);
 
         var x = coords.x - this._coords.width / 2,
@@ -1470,6 +1485,7 @@ var summerHtmlImageMapCreator = (function() {
             ),
             e.shiftKey
         );
+
     };
 
     /**
@@ -1482,6 +1498,8 @@ var summerHtmlImageMapCreator = (function() {
     Marker.prototype.onStopEditing = function(e) {
         this.setCoords(this.onProcessEditing(e));
         app.removeAllEvents();
+        console.log(this._attributes.title);
+
     };
 
     /**l
