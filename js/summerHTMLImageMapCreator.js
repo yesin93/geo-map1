@@ -521,20 +521,24 @@ var summerHtmlImageMapCreator = (function() {
                 restore : function() {
 
                     $.get('result.json', function (data) {
+                        var floorNo;
 
-                        var id = getUrlParameter("id");
-                        console.log(data);
-                        console.log(id);
+                        var markerId = getUrlParameter("id");
 
-                        $.each(data.metaData, function(){
-                            if(data.metaData.id == 81){
-                                areasIO.fromJSON(JSON.stringify(data.metaData.floorplan.floor1));
-                            }
-                        });
+                        console.log(markerId);
+                        console.log(data.metaData);
+                        console.log(data.metaData[1].floorplan[0]);
+
+                        // $.each(data.metaData, function(index){
+                        //     console.log(index);
+                        //     if(data.metaData[index].id == 123){
+                        //         areasIO.fromJSON(JSON.stringify(data.metaData[index].floorplan[index].floor1));
+                        //     }
+                        // });
 
                         // console.log(JSON.stringify(data.metaData[0].floorplan[0].floor1));
                         // console.log(window.localStorage.getItem(KEY_NAME));
-                        areasIO.fromJSON(JSON.stringify(data.metaData[0].floorplan[0].floor1));
+                        // areasIO.fromJSON(JSON.stringify(data.metaData[1].floorplan[0].floor1));
                     });
 
 

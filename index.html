@@ -230,13 +230,19 @@
             locationName,
             address,
             floorCount,
-            markerId;
+            markerId,
+            popup;
 
         if(e !== null){
             cord = e.latlng;
             locationName = "";
             address = "";
             floorCount = "";
+
+            popup = L.popup({
+                autoPan: true,
+                keepInView: true})
+                .setContent('<p>Hello there!<br />Please enter the marker details! :)</p>');
         }
         else {
             cord = L.latLng(d.coordinates.lat, d.coordinates.lng);
@@ -244,6 +250,19 @@
             address = d.address;
             floorCount = d.floors;
             markerId = d.id;
+
+            //popup content
+            var popupContent = '<h4>'+ locationName +'</h4>' +
+                '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
+                '<ul>' +
+                    '<li>No of Floors: '+ floorCount+' </li>' +
+                    '<li> Address: "+ address+"</li>' +
+                '</ul>';
+
+            popup = L.popup({
+                autoPan: true,
+                keepInView: true})
+                .setContent(popupContent);
         }
 
         //variable for marker
@@ -254,24 +273,29 @@
             info: []
         };
 
+
+
         marker = new L.marker(cord, {
             title: "Resource Location",
             alt: "Resource Location",
             riseOnHover: true,
             draggable: true
-        }).bindPopup("<input type='button' value='Delete' class='marker-delete-button'/>");
+        }).bindPopup(popup);
 
-        if(e !== null){
-            markerId = marker._leaflet_id;
-        }
+
 
         marker.on('click', onMarkerClick);
         marker.on("popupopen", onPopupOpen);
         marker.addTo(baseMap);
+
+        if(e !== null){
+            markerId = marker._leaflet_id;
+            console.log(marker._leaflet_id);
+        }
         //marker._leaflet_id = markerId;
         //marker._icon.id = markerId;
         markers[markerId] = marker;
-        console.log(markerId);
+
         //append the information to the sidebar
         $('#home').append(
         <!-- collapse -->
@@ -279,7 +303,7 @@
                 //'<div class="" role="tablist" aria-multiselectable="false">'+
                     '<div class="panel panel-default">'+
                         '<div class="panel-heading" role="tab" id="heading' + markerId + '" data-toggle="collapse" href="#accordion' + markerId + '" aria-controls="accordion' + markerId + '">'+
-                            '<h4 class="panel-title">Marker ' + markerId + '</h4>'+
+                                '<h4 class="panel-title"> Unnamed Marker</h4>'+
 //                                '<div class="btn-group">' +
 //                                    '<button type="button" class="btn btn-primary" data-toggle="edit-floors">Edit Floors</button>' +
 //                                    '<button type="button" class="btn btn-secondary remove" data-toggle="">Remove</button>' +
@@ -292,10 +316,10 @@
                             '</a>' +
                             '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
 
-                        '</div>'+
+                '</div>'+
                 '<div id="accordion' + markerId + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading' + markerId + '">'+
                     '<div class="panel-body">'+
-                        '<form action="" method="post" id="register-form" novalidate="novalidate">' +
+                        '<form action="" method="post" id="register-form-'+ markerId +'" novalidate="novalidate">' +
                             '<div class="form-group">' +
                                 '<label for="locationName">Location Name *</label>' +
                                 '<input type="text" class="form-control" name="locationName" placeholder="Home" value="' + locationName + '">' +
@@ -320,9 +344,13 @@
                 '</div>');
        <!-- /collapse -->
 
-        $('#heading'+markerId).find('.panel-title').text(locationName);
+        //Adding panel heading on load only
+        if(e == null){
+            $('#heading'+markerId).find('.panel-title').text(locationName);
+        }
 
-        // Remove a marker
+
+        // Remove Marker
         $('.remove').on("click", function () {
             // Remove the marker
             baseMap.removeLayer(markers[$(this).attr('id')]);
@@ -334,8 +362,10 @@
             $('#home').find('#' + idNo).remove();
         });
 
-        //On Mouseover the markers
-        $('.panel-default').on("mouseover", function (e) {
+        /*
+        Pan to Marker on item panel hover
+         */
+        $('.item').on("mouseover", function (e) {
             $('div').removeClass('active-marker');
             $(this).addClass('active-marker');
             for (var mark in markers) {
@@ -352,17 +382,27 @@
 
     //open marker popup
     function markerFunction(id) {
-        console.log(markers[id]);
+//        console.log(markers[id]);
         markers[id].openPopup();
 
     }
 
     $('#home').on('click', '[data-toggle=edit-floors]', function(e){
-        if($(e.target).closest('form').valid()) {
+        console.log("Edit Floors clicked");
+//        if($(e.target).find('form').valid()) {
             var markerID = $(e.target).closest('.item').prop('id');
             openWin(markerID);
-        }
+//        }
     });
+
+    $('.leaflet-popup').on('click', '[data-toggle=edit-floors]', function(e){
+        console.log("Edit Floors clicked");
+//        if($(e.target).closest('panel form').valid()) {
+        var markerID = $(e.target).closest('.item').prop('id');
+        openWin(markerID);
+//        }
+    });
+
 
 
     // Function to handle delete as well as other events on marker popup open
