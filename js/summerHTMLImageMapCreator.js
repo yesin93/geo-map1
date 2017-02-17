@@ -320,6 +320,7 @@ var summerHtmlImageMapCreator = (function() {
                 }
             }
         }
+
         
         domElements.container.addEventListener('mousedown', onSvgMousedown, false);
         
@@ -542,6 +543,19 @@ var summerHtmlImageMapCreator = (function() {
         })();
         
         return {
+            // detectingShape: function(e){
+            //     if(state.currentType === 'marker'){
+            //         if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
+            //             state.selectedArea = e.target.parentNode.obj;
+            //             //Displays the area attribute form
+            //             console.log(state.selectedArea._attributes.title);
+            //             // console.log(state.newArea);
+            //             // info.load(state.selectedArea, e.pageX, e.pageY);
+            //         }else{
+            //             console.log("please place inside a room");
+            //         }
+            //     }
+            // },
             domElements : domElements,
             saveInLocalStorage : localStorageWrapper.save,
             loadFromLocalStorage : localStorageWrapper.restore,
@@ -1059,7 +1073,19 @@ var summerHtmlImageMapCreator = (function() {
     Area.prototype.select = function() {
         this._el.classList.add(Area.CLASS_NAMES.SELECTED);
         console.info(this.toString() + ' is selected now');
-        
+        console.log('Marker has moved to ' + this._attributes.title);
+        // if(state.currentType === 'marker'){
+        //     if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
+        //         state.selectedArea = e.target.parentNode.obj;
+        //         //Displays the area attribute form
+        //         console.log(state.selectedArea._attributes.title);
+        //         // console.log(state.newArea);
+        //         // info.load(state.selectedArea, e.pageX, e.pageY);
+        //     }else{
+        //         console.log("please place marker inside a room");
+        //     }
+        //
+        // }
         return this;
     };
 
@@ -1267,7 +1293,7 @@ var summerHtmlImageMapCreator = (function() {
         var x = coords.x - this._coords.width / 2,
             y = coords.y - this._coords.height / 2;
 
-        this._marker = {
+        this._helpers = {
             // center : new Helper(this._groupEl, x, y, 'move'),
             // top : new Helper(this._groupEl, x, y, 'editTop'),
             // bottom : new Helper(this._groupEl, x, y, 'editBottom'),
@@ -1278,7 +1304,7 @@ var summerHtmlImageMapCreator = (function() {
             // bottomLeft : new Helper(this._groupEl, x, y, 'editBottomLeft'),
             // bottomRight : new Helper(this._groupEl, x, y, 'editBottomRight')
         };
-
+        console.log(this);
         this.redraw();
     }
     utils.inherits(Marker, Area);
@@ -1311,7 +1337,7 @@ var summerHtmlImageMapCreator = (function() {
         // this._helpers.bottom.setCoords(center_x, bottom);
         // this._helpers.left.setCoords(left, center_y);
         // this._helpers.right.setCoords(right, center_y);
-        this._marker.topLeft.setCoords(left, top);
+        this._helpers.topLeft.setCoords(left, top);
         // this._helpers.topRight.setCoords(right, top);
         // this._helpers.bottomLeft.setCoords(left, bottom);
         // this._helpers.bottomRight.setCoords(right, bottom);
@@ -1498,8 +1524,10 @@ var summerHtmlImageMapCreator = (function() {
     Marker.prototype.onStopEditing = function(e) {
         this.setCoords(this.onProcessEditing(e));
         app.removeAllEvents();
-        console.log(this._attributes.title);
-
+        $("rect.selected").siblings("rect").css({"pointer-events": "none"});
+        // console.log(this._attributes.title);
+        // app.detectingShape(e);
+        // $("rect.selected").siblings("rect").css({"pointer-events": "auto"});
     };
 
     /**l

@@ -66,6 +66,8 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         var address = element.find('[name=address]').val();
         var floors = element.find('[name=floors]').val();
 
+        $('#heading'+id).find('.panel-title').text(name);
+
         //prepare the properties of the object
         markerDetails["id"] = id;
         markerDetails["address"] = address;
