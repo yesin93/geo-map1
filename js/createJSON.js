@@ -18,8 +18,9 @@ $('form').validate({
         , address: {
             required: true
         }
-        , floornumbers: {
-            required: true
+        , floors: {
+            required: true,
+            min: 1
         }
         , agree: "required"
     }, // Specify the validation error messages
@@ -31,8 +32,9 @@ $('form').validate({
         , address: {
             required: "Please enter your address"
         }
-        , floornumbers: {
-            required: "Please provide floor number"
+        , floors: {
+            required: "Please provide floor number",
+            min:"Please enter a value greater than 0"
         }
     }
 });
@@ -60,7 +62,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         floorplan.push(floorObjs);
 
         //get the values of the form elements
-        var id = element.prop('id');
+        var markerId = element.prop('id');
 
         var name = element.find('[name=locationName]').val();
         var address = element.find('[name=address]').val();
@@ -69,7 +71,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         $('#heading'+id).find('.panel-title').text(name);
 
         //prepare the properties of the object
-        markerDetails["id"] = id;
+        markerDetails["id"] = markerId;
         markerDetails["address"] = address;
         markerDetails["coordinates"] = coordinates;
         markerDetails["floorplan"] = floorplan;
@@ -85,12 +87,56 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
 
         //get the JSON obj array
             $.get('result.json', function (data) {
+
+                var popupContent = '<h4>'+ name +'</h4>' +
+                    '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
+                    '<ul>' +
+                    '<li>No of Floors: '+ floors+' </li>' +
+                    '<li> Address: '+ address+'</li>' +
+                    '</ul>';
+
+               var popup = L.popup({
+                    autoPan: true,
+                    keepInView: true})
+                    .setContent(popupContent);
+
+
+            var markerObj =  markers[markerId];
+                markerObj.unbindPopup();
+                markerObj.bindPopup(popup);
+
+
+                // markers[markerId]._popup._content = popupContent;
+                // console.log( markers[markerId]._popup._content);
                 data.metaData.push(markerDetails);
                 console.log(data);
 
+
             });
 
+        // markers[markerId]._popup._content
 
+        // //update popup
+        // $.get('result.json', function (data) {
+        //     $.each(data.metaData, function(i, n){
+        //         if(n.id = markerId){
+        //
+        //             // baseMap.removeLayer(markers[$(this).attr('id')]);
+        //             //
+        //             // var idNo = $(this).attr('id');
+        //             // // Remove the link
+        //             // $(this).parent('div').remove();
+        //             //
+        //             // $('#home').find('#' + idNo).remove();
+        //             // console.log(markers);
+        //             //     markers.splice(idNo,1);
+        //             //
+        //
+        //
+        //             // addingMarker(null, n[i]);
+        //         }
+        //     });
+        // });
     }
 
 });

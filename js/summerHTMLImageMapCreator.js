@@ -521,7 +521,7 @@ var summerHtmlImageMapCreator = (function() {
                 restore : function() {
 
                     $.get('result.json', function (data) {
-                        var floorNo;
+                        // var floorNo = ;
 
                         var markerId = getUrlParameter("id");
 
@@ -529,12 +529,16 @@ var summerHtmlImageMapCreator = (function() {
                         console.log(data.metaData);
                         console.log(data.metaData[1].floorplan[0]);
 
-                        // $.each(data.metaData, function(index){
-                        //     console.log(index);
-                        //     if(data.metaData[index].id == 123){
-                        //         areasIO.fromJSON(JSON.stringify(data.metaData[index].floorplan[index].floor1));
-                        //     }
-                        // });
+                        $.each(data.metaData, function(index){
+                            console.log(index);
+                            if(data.metaData[index].id == markerId){
+                                $.each(data.metaData[index], function(i){
+                                    if(data.metaData[index].floorplan[i] == floorId){
+                                        // areasIO.fromJSON(JSON.stringify(data.metaData[index].floorplan[i].));
+                                    }
+                                });
+                            }
+                        });
 
                         // console.log(JSON.stringify(data.metaData[0].floorplan[0].floor1));
                         // console.log(window.localStorage.getItem(KEY_NAME));
