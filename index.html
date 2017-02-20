@@ -136,11 +136,6 @@
 <!--scripts-->
 <script type="text/javascript">
 
-</script>
-
-<!--scripts-->
-<script type="text/javascript">
-
     //image bounds
     var baseMap;
 
@@ -212,10 +207,7 @@
         $.get('result.json', function (data) {
             $.each(data.metaData, function(i, n){
                 addingMarker(null, n);
-
             });
-
-
         });
     });
 
@@ -250,13 +242,14 @@
             address = d.address;
             floorCount = d.floors;
             markerId = d.id;
+//            markers._leaflet_id = markerId;
 
             //popup content
             var popupContent = '<h4>'+ locationName +'</h4>' +
                 '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
                 '<ul>' +
                     '<li>No of Floors: '+ floorCount+' </li>' +
-                    '<li> Address: "+ address+"</li>' +
+                    '<li> Address: '+ address+'</li>' +
                 '</ul>';
 
             popup = L.popup({
@@ -273,8 +266,6 @@
             info: []
         };
 
-
-
         marker = new L.marker(cord, {
             title: "Resource Location",
             alt: "Resource Location",
@@ -282,6 +273,7 @@
             draggable: true
         }).bindPopup(popup);
 
+        marker._leaflet_id = markerId;
 
 
         marker.on('click', onMarkerClick);
@@ -292,9 +284,10 @@
             markerId = marker._leaflet_id;
             console.log(marker._leaflet_id);
         }
-        //marker._leaflet_id = markerId;
-        //marker._icon.id = markerId;
+
         markers[markerId] = marker;
+        console.log(markerId);
+        console.log(markers[markerId]);
 
         //append the information to the sidebar
         $('#home').append(
@@ -388,19 +381,18 @@
     }
 
     $('#home').on('click', '[data-toggle=edit-floors]', function(e){
-        console.log("Edit Floors clicked");
-//        if($(e.target).find('form').valid()) {
+        if($(e.target).closest('.panel-heading').next('.panel-collapse').find('form').valid()) {
             var markerID = $(e.target).closest('.item').prop('id');
             openWin(markerID);
-//        }
+        }
     });
 
     $('.leaflet-popup').on('click', '[data-toggle=edit-floors]', function(e){
-        console.log("Edit Floors clicked");
-//        if($(e.target).closest('panel form').valid()) {
+        console.log(e.target);
+   if($(e.target).closest('.panel-heading').next('.panel-collapse').find('form').valid()) {
         var markerID = $(e.target).closest('.item').prop('id');
         openWin(markerID);
-//        }
+        }
     });
 
 

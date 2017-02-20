@@ -54,19 +54,26 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         //get the values of the form elements
         var id = element.prop('id');
 
-
-        //obj array to be inside markerInfo obj array
-        var floorplan = [];
-        var floorObjs = {};
-        floorObjs["floor1"] = "";
-        floorplan.push(floorObjs);
-
         //get the values of the form elements
         var markerId = element.prop('id');
 
         var name = element.find('[name=locationName]').val();
         var address = element.find('[name=address]').val();
         var floors = element.find('[name=floors]').val();
+
+
+        //obj array to be inside markerInfo obj array
+        var floorplan = [];
+        var floorObjs = {};
+
+        for(var i = 1; i <= floors; i++){
+            floorObjs["floor"+ i] = "bb";
+        }
+
+        // floorObjs["floor1"] = "";
+        floorplan.push(floorObjs);
+
+
 
         $('#heading'+id).find('.panel-title').text(name);
 
