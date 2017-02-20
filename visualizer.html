@@ -89,7 +89,7 @@
                     <li class="dropdown main-dropdown">
                         <a href="#" class="dropdown-toggle main-dropdown-toggle" data-toggle="dropdown"
                            role="button"
-                           aria-haspopup="true" aria-expanded="false">Select Floor <span class="caret"></span></a>
+                           aria-haspopup="true" aria-expanded="false"> 1st floor <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">1st Floor</a></li>
                             <li><a href="#">2nd Floor</a></li>
@@ -309,8 +309,24 @@
 <script src="libs/bootstrap_3.3.6/js/bootstrap.min.js"></script>
 <script src="libs/theme-wso2_2.0.0/js/theme-wso2.min.js"></script>
 <script type="text/javascript" src="js/summerHTMLImageMapCreator.js"></script>
+
 <script>
     //get the number of floors of the building
+    $(document).ready(function () {
+        $.get('result.json', function (data) {
+            var buildingId = getUrlParameter("id");
+            $.each(data.metaData, function(i){
+//                console.log(i);
+//                console.log(data.metaData[0].id);
+                if(data.metaData[i].id == buildingId){
+                    var floors = data.metaData[i].floors;
+                    for(var i=1; i <= floors; i++){
+
+                    }
+                }
+            });
+        });
+    });
 </script>
 
 </body>
