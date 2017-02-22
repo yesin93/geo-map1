@@ -116,8 +116,16 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
                 // markers[markerId]._popup._content = popupContent;
                 // console.log( markers[markerId]._popup._content);
                 data.metaData.push(markerDetails);
-                console.log(data);
 
+                console.log( data);
+
+
+                var KEY_NAME = 'yesin';
+                var result = JSON.stringify(data);
+                window.localStorage.setItem(KEY_NAME, result);
+                console.info('Editor ' + result + ' saved');
+
+                alert('Saved');
 
             });
 

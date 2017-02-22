@@ -87,13 +87,12 @@
                 <ul class="nav navbar-nav">
 
                     <li class="dropdown main-dropdown">
+
                         <a href="#" class="dropdown-toggle main-dropdown-toggle" data-toggle="dropdown"
                            role="button"
                            aria-haspopup="true" aria-expanded="false"> 1st floor <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">1st Floor</a></li>
-                            <li><a href="#">2nd Floor</a></li>
-                            <li><a href="#">3rd Floor</a></li>
+                        <ul class="dropdown-menu" id="floors-dropdown">
+
                         </ul>
 
                     </li>
@@ -312,21 +311,38 @@
 
 <script>
     //get the number of floors of the building
-    $(document).ready(function () {
-        $.get('result.json', function (data) {
-            var buildingId = getUrlParameter("id");
-            $.each(data.metaData, function(i){
-//                console.log(i);
-//                console.log(data.metaData[0].id);
-                if(data.metaData[i].id == buildingId){
-                    var floors = data.metaData[i].floors;
-                    for(var i=1; i <= floors; i++){
 
-                    }
-                }
-            });
-        });
-    });
+//    var floorNo;
+//    $(document).ready(function () {
+//
+//        $.get('result.json', function (data) {
+//            var buildingId = getUrlParameter("id");
+//            $.each(data.metaData, function(i){
+////                console.log(i);
+////                console.log(data.metaData[0].id);
+//                if(data.metaData[i].id == buildingId){
+//                    var floors = data.metaData[i].floors;
+//                    for(var i=1; i <= floors; i++){
+//                        $('#floors-dropdown').append(
+//                        '<li><a value="floor'+i+'">' + 'Floor '+i+'</a></li>'
+//                        );
+//                    }
+//                }
+//            });
+//        });
+//
+//        $(document).on('click','#floors-dropdown li a',function(){
+////            console.log($(this).attr('value'));
+//            //console.log( $('.main-dropdown-toggle').closest('a').attr('value'));
+//            floorNo = $(this).attr('value');
+//            $('.main-dropdown-toggle').closest('a').html($(this).text()+' <span class="caret"></span>');
+//
+//        });
+//
+//    });
+
+
+
 </script>
 
 </body>
