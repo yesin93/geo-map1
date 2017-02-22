@@ -96,7 +96,6 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
             $.get('result.json', function (data) {
 
                 var popupContent = '<h4>'+ name +'</h4>' +
-                    '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
                     '<ul>' +
                     '<li>No of Floors: '+ floors+' </li>' +
                     '<li> Address: '+ address+'</li>' +

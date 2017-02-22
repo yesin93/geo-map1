@@ -11,6 +11,15 @@
     width: 40px
 }
 
+.add-margin-bottom-2x {
+    margin-bottom: 0px !important;
+}
+
+.panel-title {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
 @media (min-width:768px) {
     .sidebar {
         top: 10px;

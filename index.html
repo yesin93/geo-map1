@@ -86,7 +86,7 @@
         <!-- Nav tabs -->
         <div class="sidebar-tabs">
             <ul role="tablist">
-                <li><a href="#home" role="tab"><i class="fa fa-home"></i></a></li>
+                <li><a href="#home" role="tab"><i class="fa fa-building"></i></a></li>
                 <!--<li><a href="#info" role="tab"><i class="fa fa-info-circle"></i></a></li>-->
                 <li class="disabled"><a href="#messages" role="tab"><i class="fa fa-envelope"></i></a></li>
             </ul>
@@ -246,7 +246,6 @@
 
             //popup content
             var popupContent = '<h4>'+ locationName +'</h4>' +
-                '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
                 '<ul>' +
                     '<li>No of Floors: '+ floorCount+' </li>' +
                     '<li> Address: '+ address+'</li>' +
@@ -296,18 +295,26 @@
                 //'<div class="" role="tablist" aria-multiselectable="false">'+
                     '<div class="panel panel-default">'+
                         '<div class="panel-heading" role="tab" id="heading' + markerId + '" data-toggle="collapse" href="#accordion' + markerId + '" aria-controls="accordion' + markerId + '">'+
-                                '<h4 class="panel-title"> Unnamed Marker</h4>'+
-//                                '<div class="btn-group">' +
-//                                    '<button type="button" class="btn btn-primary" data-toggle="edit-floors">Edit Floors</button>' +
-//                                    '<button type="button" class="btn btn-secondary remove" data-toggle="">Remove</button>' +
-//                                   '<div class="clearfix"></div>'+
-//                                '</div>' +
-                            '<a href="#" class="remove" id="' + markerId + '">' +
-                                '<span class="icon fw-stack">' +
-                                '<i class="fw fw-delete fw-stack-1x"></i>' +
-                                '</span> Remove' +
-                            '</a>' +
-                            '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
+                                '<h4 class="panel-title">New Building</h4>'+
+                                '<div class="btn-group">' +
+                                    '<button type="button" class="btn btn-primary add-margin-right-2x" data-toggle="edit-floors">' +
+                                        '<span class="icon fw-stack add-margin-right-1x">'+
+                                            '<i class="fw fw-edit  fw-helper fw-helper-circle-outline"></i>' +
+                                        '</span>Edit Floors' +
+                                    '</button>'+
+                                    '<button type="button" class="btn btn-secondary remove add-margin-right-2x" data-toggle="" id="' + markerId + '">' +
+                                        '<span class="icon fw-stack add-margin-right-1x">'+
+                                            '<i class="fw fw-delete  fw-helper fw-helper-circle-outline"></i>' +
+                                        '</span>' +
+                                    'Delete Building</button>' +
+                                   '<div class="clearfix"></div>'+
+                                '</div>' +
+//                            '<a href="#" class="remove" id="' + markerId + '">' +
+//                                '<span class="icon fw-stack">' +
+//                                '<i class="fw fw-delete fw-stack-1x"></i>' +
+//                                '</span> Remove' +
+//                            '</a>' +
+//                            '<button type="button" class="btn btn-secondary" data-toggle="edit-floors">Edit Floors</button>' +
 
                 '</div>'+
                 '<div id="accordion' + markerId + '" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading' + markerId + '">'+
@@ -315,15 +322,15 @@
                         '<form action="" method="post" id="register-form-'+ markerId +'" novalidate="novalidate">' +
                             '<div class="form-group">' +
                                 '<label for="locationName">Location Name *</label>' +
-                                '<input type="text" class="form-control" name="locationName" placeholder="Home" value="' + locationName + '">' +
+                                '<input type="text" class="form-control" name="locationName" placeholder="e.g.: Home" value="' + locationName + '">' +
                             '</div>' +
                             '<div class="form-group">' +
                                 '<label for="address">Address *</label>' +
-                                '<input type="text" class="form-control" name="address" placeholder="13/13, Mockingbird Ave, New York" value="'+address+'">' +
+                                '<input type="text" class="form-control" name="address" placeholder="e.g.: 13/13, Mockingbird Ave, New York" value="'+address+'">' +
                             '</div>' +
                             '<div class="form-group">' +
                                 '<label for="floors">No. of Floors *</label>' +
-                                '<input type="number" class="form-control required" name="floors" placeholder="Number of floors" value="'+floorCount+'">' +
+                                '<input type="number" class="form-control required" name="floors" placeholder="e.g.: Number of floors" value="'+floorCount+'">' +
                             '</div>' +
                             '<div class="form-group">' +
                                 '<button type="button" class="btn btn-primary" data-toggle="update-data">Save</button>' +

@@ -20,8 +20,16 @@ $(document).ready(function () {
                 var floors = data.metaData[i].floors;
                 for(var i=1; i <= floors; i++){
                     $('#floors-dropdown').append(
-                        '<li><a value="floor'+i+'">' + 'Floor '+i+'</a></li>'
+                        '<li><a value="floor'+i+'">' +
+                        'Floor '+i+'</a></li>'
                     );
+
+                    // if($('#floors-dropdown li a').attr('value') == "floor1"){
+                    //     // floorNo = $(this).attr('value');
+                    //     // $('.main-dropdown-toggle').closest('a').html($(this).text()+' <span class="caret"></span>');
+                    //     app.clear()
+                    //         .loadFromLocalStorage();
+                    // }
                 }
             }
         });
@@ -3586,9 +3594,8 @@ var summerHtmlImageMapCreator = (function() {
         new_image.addEventListener('click', onNewImageButtonClick, false);
         show_help.addEventListener('click', onShowHelpButtonClick, false);
         marker.addEventListener('click', addMarker, false);
+
         $(document).on('click','#floors-dropdown li a',function(e){
-//            console.log($(this).attr('value'));
-            //console.log( $('.main-dropdown-toggle').closest('a').attr('value'));
             floorNo = $(this).attr('value');
             $('.main-dropdown-toggle').closest('a').html($(this).text()+' <span class="caret"></span>');
             app.clear()
