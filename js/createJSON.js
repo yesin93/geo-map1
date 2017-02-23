@@ -67,7 +67,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         var floorObjs = {};
 
         for(var i = 1; i <= floors; i++){
-            floorObjs["floor"+ i] = "bb";
+            floorObjs["floor"+ i] = "";
         }
 
         // floorObjs["floor1"] = "";
@@ -115,6 +115,11 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
                 // markers[markerId]._popup._content = popupContent;
                 // console.log( markers[markerId]._popup._content);
                 data.metaData.push(markerDetails);
+
+                //collapse panel
+                // $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').attr("aria-expanded", "false");
+                // $('#'+$(this).attr('id')+' .panel-default > .panel-heading').attr("expanded", "false");
+                $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').accordion({active: false}).click();
 
                 console.log( data);
 

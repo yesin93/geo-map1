@@ -12,10 +12,10 @@
     <link href="libs/theme-wso2_2.0.0/css/theme-wso2.css" rel="stylesheet" type="text/css"/>
 
     <!-- Font WSO2 CSS -->
-    <link href="libs/font-wso2_1.1.1/css/font-wso2.min.css" rel="stylesheet" type="text/css"/>
+    <link href="libs/font-wso2-1.2.1/css/font-wso2.min.css" rel="stylesheet" type="text/css"/>
 
     <!--fontawesome-->
-    <link href="libs/font-awesome_4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="libs/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!--leaflet-->
     <link rel="stylesheet" href="css/leaflet.css"/>
@@ -367,7 +367,7 @@
          */
         $('.item').on("mouseover", function (e) {
             $('div').removeClass('active-marker');
-            $(this).addClass('active-marker');
+            $('#'+$(this).attr('id')+' .panel-default > .panel-heading').addClass('active-marker');
             for (var mark in markers) {
                 markers[mark].setIcon(smallIcon);
             }

@@ -694,7 +694,8 @@ var summerHtmlImageMapCreator = (function() {
                     app.setShape(null);
                     utils.hide(domElements.svg);
                     domElements.map.innerHTML = app.getHTMLCode();
-                    code.print();
+                    //stop html code from displaying on preview
+                    // code.print();
                     return this;
                 };
             })(),

@@ -13,7 +13,10 @@
     <link href="libs/theme-wso2_2.0.0/css/theme-wso2.css" rel="stylesheet" type="text/css"/>
 
     <!-- Font WSO2 CSS -->
-    <link href="libs/font-wso2_1.1.1/css/font-wso2.min.css" rel="stylesheet" type="text/css"/>
+    <link href="libs/font-wso2-1.2.1/css/font-wso2.min.css" rel="stylesheet" type="text/css"/>
+
+    <!--fontawesome-->
+    <link href="libs/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!--image mapper css-->
     <link href="css/image-mapper.css" rel="stylesheet" type="text/css"/>
@@ -117,14 +120,14 @@
                     <li id="from_html" class = "hidden">
                         <a href="#">From html</a>
                     </li>
-                    <li id="edit">
-                        <a href="#">
-                            <span class="icon fw-stack add-margin-right-1x">
-                                <i class="fw fw-edit fw-helper fw-helper-circle-outline"></i>
-                            </span>
-                            Edit
-                        </a>
-                    </li>
+                    <!--<li id="edit">-->
+                        <!--<a href="#">-->
+                            <!--<span class="icon fw-stack add-margin-right-1x">-->
+                                <!--<i class="fw fw-edit fw-helper fw-helper-circle-outline"></i>-->
+                            <!--</span>-->
+                            <!--Edit-->
+                        <!--</a>-->
+                    <!--</li>-->
                     <li id="to_html" class = "hidden">
                         <a href="#">To HTML</a>
                     </li>
@@ -133,7 +136,7 @@
                             <span class="icon fw-stack add-margin-right-1x">
                                 <i class="fw fw-view fw-helper fw-helper-circle-outline"></i>
                             </span>
-                            Preview
+                            Show/hide Areas
                         </a>
                     </li>
                     <li id="clear">
@@ -149,17 +152,17 @@
                               <span class="icon fw-stack add-margin-right-1x">
                                 <i class="fw fw-redo fw-helper fw-helper-circle-outline"></i>
                             </span>
-                            New Floorplan
+                            Remove Floorplan
                         </a>
                     </li>
-                    <li id="marker" class = "sidebar-toggle-btn" data-toggle="" data-target="#right-sidebar-overlay" aria-expanded="false">
-                        <a href="#">
-                            <span class="icon fw-stack add-margin-right-1x">
-                                <i class="fw fw-add fw-helper fw-helper-circle-outline"></i>
-                            </span>
-                            Place Device
-                        </a>
-                    </li>
+                    <!--<li id="marker" class = "sidebar-toggle-btn" data-toggle="" data-target="#right-sidebar-overlay" aria-expanded="false">-->
+                        <!--<a href="#">-->
+                            <!--<span class="icon fw-stack add-margin-right-1x">-->
+                                <!--<i class="fw fw-add fw-helper fw-helper-circle-outline"></i>-->
+                            <!--</span>-->
+                            <!--Place Device-->
+                        <!--</a>-->
+                    <!--</li>-->
                     <li id="show_help">
                         <a href="#">
                             <span class="icon fw-stack add-margin-right-1x">
@@ -189,7 +192,9 @@
                 <ul class="nav nav-pills nav-stacked pages">
                     <li id="rectangle"><a href="#"><i class="fw fw-square-outline"></i></a></li>
                     <li id="circle"><a href="#"><i class="fw fw-circle-outline"></i></a></li>
-                    <li id="polygon"><a href="#"><i class="fw fw-ungroup"></i></a></li>
+                    <li id="polygon"><a href="#"><i class="fw fw-polygon"></i></a></li>
+                    <li id="marker"><a href="#"><i class="fw fw-devices"></i></a></li>
+                    <li id="edit"><a href="#"><i class="fa fa-mouse-pointer"></i></a></li>
                 </ul>
             </div>
         </div>

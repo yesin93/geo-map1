@@ -45,9 +45,7 @@ a{
 label{
     font-weight: normal;
 }
-.active-marker {
-    background-color: #e67e22;
-}
+
 .error {
     border-color: #ff2222;
 }
@@ -94,6 +92,14 @@ label{
 .panel-default > .panel-heading {
 background-color: #ecf0f1;
 }
+
+.panel-default > .panel-heading:hover {
+    background-color: #fbe859;
+}
+
+/*.panel-default > .panel-heading .active-marker {*/
+    /*background-color: #e69753;*/
+/*}*/
 
 #click-coords{
     position: absolute;
