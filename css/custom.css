@@ -29,6 +29,7 @@ body.fixed .page-content-wrapper {
 
 a{
     color:#0088cc;
+
 }
 
 .item {
@@ -44,6 +45,10 @@ a{
 
 label{
     font-weight: normal;
+}
+
+.marker-cursor {
+    cursor: url('images/marker-icon.png')12 41 , auto;
 }
 
 .error {

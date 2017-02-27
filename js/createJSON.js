@@ -119,7 +119,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
                 //collapse panel
                 // $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').attr("aria-expanded", "false");
                 // $('#'+$(this).attr('id')+' .panel-default > .panel-heading').attr("expanded", "false");
-                $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').accordion({active: false}).click();
+                // $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').accordion({active: false}).click();
 
                 console.log( data);
 

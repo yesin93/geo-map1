@@ -11,13 +11,43 @@ var floorNo;
 
 $(document).ready(function () {
 
-    $.get('result.json', function (data) {
+//     $.get('result.json', function (data) {
+//         var buildingId = getUrlParameter("id");
+//         $.each(data.metaData, function(i){
+// //                console.log(i);
+// //                console.log(data.metaData[0].id);
+//             if(data.metaData[i].id == buildingId){
+//                 var floors = data.metaData[i].floors;
+//                 for(var i=1; i <= floors; i++){
+//                     $('#floors-dropdown').append(
+//                         '<li><a value="floor'+i+'">' +
+//                         'Floor '+i+'</a></li>'
+//                     );
+//
+//                     // if($('#floors-dropdown li a').attr('value') == "floor1"){
+//                     //     // floorNo = $(this).attr('value');
+//                     //     // $('.main-dropdown-toggle').closest('a').html($(this).text()+' <span class="caret"></span>');
+//                     //     app.clear()
+//                     //         .loadFromLocalStorage();
+//                     // }
+//                 }
+//             }
+//         });
+//     });
+
+    var KEY_NAME = "yesin";
+    // storage.removeItem(KEY_NAME);
+
+//
+    var obJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+    console.log(obJSON);
+    console.log(obJSON.metaData);
+
+    // $.get('obj', function (data) {
         var buildingId = getUrlParameter("id");
-        $.each(data.metaData, function(i){
-//                console.log(i);
-//                console.log(data.metaData[0].id);
-            if(data.metaData[i].id == buildingId){
-                var floors = data.metaData[i].floors;
+        $.each(obJSON.metaData, function(index, value){
+            if(value.id == buildingId){
+                var floors = value.floors;
                 for(var i=1; i <= floors; i++){
                     $('#floors-dropdown').append(
                         '<li><a value="floor'+i+'">' +
@@ -31,9 +61,11 @@ $(document).ready(function () {
                     //         .loadFromLocalStorage();
                     // }
                 }
+
+
             }
         });
-    });
+    // });
 
 
 
@@ -545,7 +577,16 @@ var summerHtmlImageMapCreator = (function() {
                     console.log(obj);
                     $.each(obj.metaData, function(i, val){
                         if(val.id == parseInt(buildingId)){
+                            floorNo = $('#floors-dropdown li a').attr('value');
+                            $.each(val.floorplan, function(i, element){
+                                console.log(floorNo);
+                                if(element[floorNo] == floorNo){
+                                    console.log(floorNo);
+                                    var result = areasIO.toJSON();
 
+                                    element[floorNo] = result;
+                                }
+                            })
                         }
                     });
 
@@ -553,7 +594,7 @@ var summerHtmlImageMapCreator = (function() {
                     //console.info('Editor ' + result + ' saved');
                 
                     alert('Saved');
-                    console.log(result);
+                    console.log(obj);
                     //console.log(JSON.stringify(result));
 
                 },
@@ -3216,7 +3257,7 @@ var summerHtmlImageMapCreator = (function() {
             function testFile(type) {
                 switch (type) {
                     case 'image/jpeg':
-                    case 'image/gif':
+                    // case 'image/gif':
                     case 'image/png':
                         return true;
                 }
@@ -3301,7 +3342,7 @@ var summerHtmlImageMapCreator = (function() {
                     switch (ext) {
                         case 'jpg':
                         case 'jpeg':
-                        case 'gif':
+                        // case 'gif':
                         case 'png':
                             return true;
                     }
@@ -3474,12 +3515,16 @@ var summerHtmlImageMapCreator = (function() {
         function onShapeButtonClick(e) {
 
             // shape = rect || circle || polygon
+            $('#preview').addClass('hidden');
+            $('#marker').attr("disabled","disabled");
+
             app.setMode('drawing')
                .setDrawClass()
                .setShape(this.id)
                .deselectAll()
                .hidePreview();
             info.unload();
+
             selectOne(this);
             debugger;
             e.preventDefault();
@@ -3596,14 +3641,23 @@ var summerHtmlImageMapCreator = (function() {
         show_help.addEventListener('click', onShowHelpButtonClick, false);
         marker.addEventListener('click', addMarker, false);
 
+        $(document).ready(function () {
+            floorNo = "floor1";
+            app.clear()
+                .loadFromLocalStorage();
+        });
+
         $(document).on('click','#floors-dropdown li a',function(e){
             floorNo = $(this).attr('value');
+
             $('.main-dropdown-toggle').closest('a').html($(this).text()+' <span class="caret"></span>');
             app.clear()
                 .loadFromLocalStorage();
 
             e.preventDefault();
         });
+
+
     })();
 
 })();
