@@ -37,15 +37,11 @@ $(document).ready(function () {
 //     });
 
     var KEY_NAME = "yesin";
-    // storage.removeItem(KEY_NAME);
-
-//
     var obJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
-//     var obJSON = window.localStorage.getItem(KEY_NAME);
+
     console.log(typeof obJSON);
     console.log(obJSON.metaData);
 
-    // $.get('obj', function (data) {
         var buildingId = getUrlParameter("id");
         $.each(obJSON.metaData, function(index, value){
             if(value.id == buildingId){
@@ -63,11 +59,9 @@ $(document).ready(function () {
                     //         .loadFromLocalStorage();
                     // }
                 }
-
-
             }
         });
-    // });
+
 
 
 
@@ -572,9 +566,11 @@ var summerHtmlImageMapCreator = (function() {
         
         // Will moved from the main module
         var localStorageWrapper = (function() {
+
             var KEY_NAME = "yesin";
             var buildingId = getUrlParameter("id");
             var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+
             return {
                 save : function() {
                     console.log(objectJSON);
@@ -596,6 +592,7 @@ var summerHtmlImageMapCreator = (function() {
                             })
                         }
                     });
+
                     var altJSON = JSON.stringify(objectJSON);
                     window.localStorage.setItem(KEY_NAME, altJSON);
                     //console.info('Editor ' + result + ' saved');
@@ -642,6 +639,31 @@ var summerHtmlImageMapCreator = (function() {
                         });
 
                     // }); //JSOON get end
+                },
+                remove: function() {
+
+                    $.each(objectJSON.metaData, function(i, val){
+                        if(val.id == parseInt(buildingId)){
+                            $.each(val.floorplan, function(i, element){
+                                console.log(floorNo);
+                                console.log(Object.keys(element));
+                                var floorNames = Object.keys(element);
+
+                                for(var i=0; i< floorNames.length; i++){
+                                    if( floorNames[i] == floorNo){
+                                        console.log(floorNo);
+                                        element[floorNo] = "";
+                                        console.log(element[floorNo]);
+                                    }
+                                }
+                            })
+                        }
+                    });
+                    var altJSON = JSON.stringify(objectJSON);
+                    window.localStorage.setItem(KEY_NAME, altJSON);
+                    //console.info('Editor ' + result + ' saved');
+
+                    alert('Removed');
                 }
             };
         })();
@@ -663,6 +685,7 @@ var summerHtmlImageMapCreator = (function() {
             domElements : domElements,
             saveInLocalStorage : localStorageWrapper.save,
             loadFromLocalStorage : localStorageWrapper.restore,
+            removeFromLocalStorage : localStorageWrapper.remove,
             /*get the coordinates on SVG*/
             // clickPic: on_click_info.set(utils.getRightCoords(e.pageX,e.pageY)),
             hide : function() {
@@ -3574,37 +3597,16 @@ var summerHtmlImageMapCreator = (function() {
                    .setIsDraw(false)
                    .clear()
                    .hide()
-                   .hidePreview();
+                   .hidePreview()
+                .removeFromLocalStorage();
                 deselectAll();
                 get_image.show();
                 console.log(floorNo);
 
-                var KEY_NAME = "yesin";
-                var buildingId = getUrlParameter("id");
-                var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+                // var KEY_NAME = "yesin";
+                // var buildingId = getUrlParameter("id");
+                // var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
 
-                $.each(objectJSON.metaData, function(i, val){
-                    if(val.id == parseInt(buildingId)){
-                        $.each(val.floorplan, function(i, element){
-                            console.log(floorNo);
-                            console.log(Object.keys(element));
-                            var floorNames = Object.keys(element);
-
-                            for(var i=0; i< floorNames.length; i++){
-                                if( floorNames[i] == floorNo){
-                                    console.log(floorNo);
-                                    element[floorNo] = "";
-                                    console.log(element[floorNo]);
-                                }
-                            }
-                        })
-                    }
-                });
-                var altJSON = JSON.stringify(objectJSON);
-                window.localStorage.setItem(KEY_NAME, altJSON);
-                //console.info('Editor ' + result + ' saved');
-
-                alert('Removed');
             } 
             
             e.preventDefault();
@@ -3658,7 +3660,7 @@ var summerHtmlImageMapCreator = (function() {
                     '</span>' +
                     $(this).text() +
                     ' <span class="caret"></span>');
-                $('#file_reader_support > h3').html('Please upload a floorplan to '+ floorText);
+                $('#file_reader_support > h3').html(floorText + ' - Please upload a floorplan');
 
             app.clear()
                 .loadFromLocalStorage();
