@@ -8,6 +8,7 @@
 
 //get's the URL query parameter that was sent from the GeoMap component
 var floorNo;
+var floorText;
 
 $(document).ready(function () {
 
@@ -40,7 +41,8 @@ $(document).ready(function () {
 
 //
     var obJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
-    console.log(obJSON);
+//     var obJSON = window.localStorage.getItem(KEY_NAME);
+    console.log(typeof obJSON);
     console.log(obJSON.metaData);
 
     // $.get('obj', function (data) {
@@ -552,7 +554,8 @@ var summerHtmlImageMapCreator = (function() {
                     obj.areas.push(x.toJSON());
                 });
                 
-                return JSON.stringify(obj);
+                // return JSON.stringify(obj);
+                return obj;
             },
             fromJSON : function(str) {
                 var obj = JSON.parse(str);
@@ -571,39 +574,41 @@ var summerHtmlImageMapCreator = (function() {
         var localStorageWrapper = (function() {
             var KEY_NAME = "yesin";
             var buildingId = getUrlParameter("id");
+            var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
             return {
                 save : function() {
-                    var obj = JSON.parse(window.localStorage.getItem(KEY_NAME));
-                    console.log(obj);
-                    $.each(obj.metaData, function(i, val){
+                    console.log(objectJSON);
+                    $.each(objectJSON.metaData, function(i, val){
                         if(val.id == parseInt(buildingId)){
-                            floorNo = $('#floors-dropdown li a').attr('value');
                             $.each(val.floorplan, function(i, element){
                                 console.log(floorNo);
-                                if(element[floorNo] == floorNo){
-                                    console.log(floorNo);
-                                    var result = areasIO.toJSON();
+                                console.log(Object.keys(element));
+                                var floorNames = Object.keys(element);
 
-                                    element[floorNo] = result;
+                                for(var i=0; i< floorNames.length; i++){
+                                    if( floorNames[i] == floorNo){
+                                        console.log(floorNo);
+                                        var result = areasIO.toJSON();
+                                        console.log(typeof result);
+                                        element[floorNo] = result;
+                                    }
                                 }
                             })
                         }
                     });
-
-                    // window.localStorage.setItem(KEY_NAME, result);
+                    var altJSON = JSON.stringify(objectJSON);
+                    window.localStorage.setItem(KEY_NAME, altJSON);
                     //console.info('Editor ' + result + ' saved');
                 
                     alert('Saved');
-                    console.log(obj);
+                    console.log(objectJSON);
                     //console.log(JSON.stringify(result));
 
                 },
                 restore : function() {
+                    console.log(objectJSON);
 
-                    // var obj = JSON.parse(window.localStorage.getItem(KEY_NAME));
-                    // console.log(typeof obj);
-
-                    $.get('result.json', function (data) {
+                    // $.get('result.json', function (data) {
 
                         // var floorNo;
 
@@ -615,60 +620,28 @@ var summerHtmlImageMapCreator = (function() {
                         //     }
                         // });
 
-
-
-                        $.each(data.metaData, function(i, val){
+                        $.each(objectJSON.metaData, function(i, val){
                             if(val.id == parseInt(buildingId)){
                                 $.each(val.floorplan, function(i, val) {
                                     console.log(val[floorNo]);
-                                    areasIO.fromJSON(JSON.stringify(val[floorNo]));
+                                    if(val[floorNo] == ""){
+                                        app.setMode(null)
+                                            .setDefaultClass()
+                                            .setShape(null)
+                                            .setIsDraw(false)
+                                            .clear()
+                                            .hide()
+                                            .hidePreview();
+                                        // buttons.deselectAll();
+                                        get_image.show();
+                                    }else{
+                                        areasIO.fromJSON(JSON.stringify(val[floorNo]));
+                                    }
                                 });
                             }
                         });
 
-
-                        // console.log(data.metaData);
-                        // console.log(data.metaData[1].floorplan[0]);
-                        // console.log(data.metaData[0].floorplan);
-                        //
-                        // $.each(data.metaData, function(index){
-                        //     // console.log(index);
-                        //     //comapre id of each building object to match
-                        //     // console.log(data.metaData[index].id );
-                        //     // console.log(buildingId);
-                        //     if(data.metaData[index].id == buildingId){
-                        //             $.each(data.metaData[index].floorplan, function(i){
-                        //                 // if(data.metaData[index].floorplan[i] = )
-                        //                 // console.log(Object.keys(data.metaData[index].floorplan[i]));
-                        //                 // console.log(Object.keys(data.metaData[index].floorplan[i])[0]);
-                        //                 //get the object keyname array
-                        //                 var arrayFloorNo = Object.keys(data.metaData[index].floorplan[i]);
-                        //                 //loop through the array
-                        //                     $.each(arrayFloorNo, function(index2){
-                        //                         if(arrayFloorNo[index2] == floorNo){
-                        //                             // areasIO.fromJSON(JSON.stringify(data.metaData[0].floorplan[0].floor1));
-                        //                        console.log( data.metaData[index].floorplan[i].floor1);
-                        //                             console.log( typeof arrayFloorNo[index2]);
-                        //                         }
-                        //                 });
-                        //                 // if(arrayFloorNo == floorNo){
-                        //                 //     // areasIO.fromJSON(JSON.stringify(data.metaData[index].floorplan[i].floor1));
-                        //                 //     console.log(data.metaData[index].floorplan[i].);
-                        //                 // }
-                        //                 // console.log(data.metaData[index].floorplan[i]);
-                        //             });
-                        //                 // areasIO.fromJSON(JSON.stringify(data.metaData[index].floorplan[i].));
-                        //
-                        //
-                        //     }
-                        // });
-
-                        // console.log(JSON.stringify(data.metaData[0].floorplan[0].floor1));
-                        // console.log(window.localStorage.getItem(KEY_NAME));
-                        // areasIO.fromJSON(JSON.stringify(data.metaData[1].floorplan[0].floor1));
-                    });
-
-
+                    // }); //JSOON get end
                 }
             };
         })();
@@ -3604,6 +3577,34 @@ var summerHtmlImageMapCreator = (function() {
                    .hidePreview();
                 deselectAll();
                 get_image.show();
+                console.log(floorNo);
+
+                var KEY_NAME = "yesin";
+                var buildingId = getUrlParameter("id");
+                var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+
+                $.each(objectJSON.metaData, function(i, val){
+                    if(val.id == parseInt(buildingId)){
+                        $.each(val.floorplan, function(i, element){
+                            console.log(floorNo);
+                            console.log(Object.keys(element));
+                            var floorNames = Object.keys(element);
+
+                            for(var i=0; i< floorNames.length; i++){
+                                if( floorNames[i] == floorNo){
+                                    console.log(floorNo);
+                                    element[floorNo] = "";
+                                    console.log(element[floorNo]);
+                                }
+                            }
+                        })
+                    }
+                });
+                var altJSON = JSON.stringify(objectJSON);
+                window.localStorage.setItem(KEY_NAME, altJSON);
+                //console.info('Editor ' + result + ' saved');
+
+                alert('Removed');
             } 
             
             e.preventDefault();
@@ -3650,7 +3651,15 @@ var summerHtmlImageMapCreator = (function() {
         $(document).on('click','#floors-dropdown li a',function(e){
             floorNo = $(this).attr('value');
 
-            $('.main-dropdown-toggle').closest('a').html($(this).text()+' <span class="caret"></span>');
+            floorText = $(this).text();
+            console.log(floorText);
+                $('.main-dropdown-toggle').closest('a').html('<span class="icon fw-stack add-margin-right-1x">' +
+                    '<i class="fw fw-enterprise fw-helper fw-helper-circle-outline"></i>' +
+                    '</span>' +
+                    $(this).text() +
+                    ' <span class="caret"></span>');
+                $('#file_reader_support > h3').html('Please upload a floorplan to '+ floorText);
+
             app.clear()
                 .loadFromLocalStorage();
 
