@@ -3602,13 +3602,8 @@ var summerHtmlImageMapCreator = (function() {
                 deselectAll();
                 get_image.show();
                 console.log(floorNo);
-
-                // var KEY_NAME = "yesin";
-                // var buildingId = getUrlParameter("id");
-                // var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
-
             } 
-            
+
             e.preventDefault();
         }
         

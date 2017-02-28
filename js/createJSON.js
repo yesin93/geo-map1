@@ -40,6 +40,8 @@ $('form').validate({
 });
 
 $('#home').on('click', '[data-toggle=update-data]', function(e){
+    var KEY_NAME = "yesin";
+    var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
 
     if($(e.target).closest('form').valid()) {
 
@@ -93,7 +95,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
 
 
         //get the JSON obj array
-            $.get('result.json', function (data) {
+        //     $.get('result.json', function (objectJSON) {
 
                 var popupContent = '<h4>'+ name +'</h4>' +
                     '<ul>' +
@@ -114,24 +116,22 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
 
                 // markers[markerId]._popup._content = popupContent;
                 // console.log( markers[markerId]._popup._content);
-                data.metaData.push(markerDetails);
+                objectJSON.metaData.push(markerDetails);
 
                 //collapse panel
                 // $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').attr("aria-expanded", "false");
                 // $('#'+$(this).attr('id')+' .panel-default > .panel-heading').attr("expanded", "false");
                 // $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').accordion({active: false}).click();
 
-                console.log( data);
-
+                console.log(objectJSON);
 
                 var KEY_NAME = 'yesin';
-                var result = JSON.stringify(data);
+                var result = JSON.stringify(objectJSON);
                 window.localStorage.setItem(KEY_NAME, result);
-                console.info('Editor ' + result + ' saved');
 
                 alert('Saved');
 
-            });
+            // });
 
         // markers[markerId]._popup._content
 
