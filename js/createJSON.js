@@ -41,7 +41,8 @@ $('form').validate({
 
 $('#home').on('click', '[data-toggle=update-data]', function(e){
     var KEY_NAME = "yesin";
-    var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+    var objectJSON;
+    var metaData;
 
     if($(e.target).closest('form').valid()) {
 
@@ -53,8 +54,8 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         coordinates["lat"] = element.data('lat');
         coordinates["lng"] = element.data('lng');
 
-        //get the values of the form elements
-        var id = element.prop('id');
+        // //get the values of the form elements
+        // var id = element.prop('id');
 
         //get the values of the form elements
         var markerId = element.prop('id');
@@ -63,60 +64,127 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
         var address = element.find('[name=address]').val();
         var floors = element.find('[name=floors]').val();
 
+        // updates panel heading title on save
+        $('#heading'+ markerId).find('.panel-title').text(name);
 
-        //obj array to be inside markerInfo obj array
-        var floorplan = [];
-        var floorObjs = {};
+        //check whether a JSON is stored inside local storage
+        if(window.localStorage.getItem(KEY_NAME) === null){
+            objectJSON = {
+                metaData : []
+            };
 
-        for(var i = 1; i <= floors; i++){
-            floorObjs["floor"+ i] = "";
+            var floorplan = [];
+            var floorObjs = {};
+
+            for(var i = 1; i <= floors; i++){
+                floorObjs["floor"+ i] = "";
+            }
+
+            // floorObjs["floor1"] = "";
+            floorplan.push(floorObjs);
+
+            //prepare the properties of the object
+            markerDetails["id"] = markerId;
+            markerDetails["address"] = address;
+            markerDetails["coordinates"] = coordinates;
+            markerDetails["floorplan"] = floorplan;
+            markerDetails["floors"] = floors;
+            markerDetails["locationName"] = name;
+
+            bindPopUpInfo(name, floors, address);
+
+            objectJSON.metaData.push(markerDetails);
+
+        }else if(window.localStorage.getItem(KEY_NAME) !== null){
+            objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+            createMarkerObj(markerId, name, address, floors);
         }
 
-        // floorObjs["floor1"] = "";
-        floorplan.push(floorObjs);
+        //Add marker details to existing JSON
+        function createMarkerObj(markerId, name, address, floors){
+            var existing  = false;
+            var noReplicate = false;
+
+            $.each(objectJSON.metaData, function(i, val){
+                console.log("Adding to existing JSON");
+                if(val.id == markerId){
+                    existing = true;
+                    //update properties of saved object
+                    val.locationName = name;
+                    val.address = address;
+                    val.floors = floors;
+
+                    bindPopUpInfo(name, floors, address);
+                }
+
+                if(existing == true){
+                    noReplicate = true
+                }
+
+            });
+
+            if(noReplicate == false){
+                console.log("No similar object found");
+                var floorplan = [];
+                var floorObjs = {};
+
+                for(var i = 1; i <= floors; i++){
+                    floorObjs["floor"+ i] = "";
+                }
+
+                // floorObjs["floor1"] = "";
+                floorplan.push(floorObjs);
+
+                //prepare the properties of the object
+                markerDetails["id"] = markerId;
+                markerDetails["address"] = address;
+                markerDetails["coordinates"] = coordinates;
+                markerDetails["floorplan"] = floorplan;
+                markerDetails["floors"] = floors;
+                markerDetails["locationName"] = name;
+
+                bindPopUpInfo(name, floors, address);
+
+                objectJSON.metaData.push(markerDetails);
+            }
+        }
 
 
-
-        $('#heading'+id).find('.panel-title').text(name);
-
-        //prepare the properties of the object
-        markerDetails["id"] = markerId;
-        markerDetails["address"] = address;
-        markerDetails["coordinates"] = coordinates;
-        markerDetails["floorplan"] = floorplan;
-        markerDetails["floors"] = floors;
-        markerDetails["locationName"] = name;
+        //obj array to be inside markerInfo obj array
 
         //After you've done fiddling with the object you can pass the object into the JSON array
         // markerInfo.metaData.push(markerDetails);
 
         //object is created to be pushed to result JSON
-        console.log(markerDetails);
+        // console.log(markerDetails);
 
 
         //get the JSON obj array
         //     $.get('result.json', function (objectJSON) {
 
-                var popupContent = '<h4>'+ name +'</h4>' +
-                    '<ul>' +
-                    '<li>No of Floors: '+ floors+' </li>' +
-                    '<li> Address: '+ address+'</li>' +
-                    '</ul>';
+        //append form details to marker popup
+        function bindPopUpInfo(name, floors, address){
+            var popupContent = '<h4>'+ name +'</h4>' +
+                '<ul>' +
+                '<li>No of Floors: '+ floors+' </li>' +
+                '<li> Address: '+ address+'</li>' +
+                '</ul>';
 
-               var popup = L.popup({
-                    autoPan: true,
-                    keepInView: true})
-                    .setContent(popupContent);
+            var popup = L.popup({
+                autoPan: true,
+                keepInView: true})
+                .setContent(popupContent);
 
 
             var markerObj =  markers[markerId];
-                markerObj.unbindPopup();
-                markerObj.bindPopup(popup);
+            markerObj.unbindPopup();
+            markerObj.bindPopup(popup);
+        }
 
 
                 // markers[markerId]._popup._content = popupContent;
                 // console.log( markers[markerId]._popup._content);
-                objectJSON.metaData.push(markerDetails);
+
 
                 //collapse panel
                 // $('#'+$('.item').attr('id')+' .panel-default > .panel-heading').attr("aria-expanded", "false");

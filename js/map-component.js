@@ -66,18 +66,31 @@ function initialiseMap() {
 
 // HTML5 local storage
 var KEY_NAME = "yesin";
-var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
-// localStorage.clear();
+var objectJSON;
+
 
 //    reading data from JSON
 $(document).ready(function () {
     // $.get('result.json', function (objectJSON) {
+    if(window.localStorage.getItem(KEY_NAME) === null){
+
+    } else{
+
+        objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
         console.log(objectJSON);
         $.each(objectJSON.metaData, function(i, n){
             addingMarker(null, n);
         });
+        // localStorage.clear();
+    }
+
     // });
 });
+
+
+
+
+
 
 function openWin(id) {
     window.open("visualizer.html?id=" + id);
@@ -233,18 +246,19 @@ function addingMarker(e, d) {
 
         $('#home').find('#' + idNo).remove();
         console.log(typeof objectJSON.metaData);
-        $.each(objectJSON.metaData, function(i, values){
-            // console.log(values[i]);
 
-            if(values.id == idNo){
-
-                objectJSON.metaData.splice(i, 1);
-                console.log("accessed");
-                console.log(objectJSON);
-                var result = JSON.stringify(objectJSON);
-                window.localStorage.setItem(KEY_NAME, result);
-            }
-        });
+        if(window.localStorage.getItem(KEY_NAME) !== null){
+            $.each(objectJSON.metaData, function(i, values){
+                // console.log(values[i]);
+                if(values.id == idNo){
+                    objectJSON.metaData.splice(i, 1);
+                    console.log("accessed");
+                    console.log(objectJSON);
+                    var result = JSON.stringify(objectJSON);
+                    window.localStorage.setItem(KEY_NAME, result);
+                }
+            });
+        }
     });
 
     /*
