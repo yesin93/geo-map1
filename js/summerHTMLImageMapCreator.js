@@ -237,7 +237,8 @@ var summerHtmlImageMapCreator = (function() {
                 svg : utils.id('svg'),
                 img : utils.id('img'),
                 container : utils.id('image'),
-                map : null
+                map : null,
+                // canvas : utils.id('heatmap')
 
             },
             //the 3 states of the editor
@@ -667,6 +668,69 @@ var summerHtmlImageMapCreator = (function() {
                 }
             };
         })();
+
+        // show heatmap visualizations
+        var visuals = (function(){
+            var heatmapInstance;
+            return{
+                    configVisual: function(){
+                        // var config = {
+                        //     container: document.getElementById('image'),
+                        //     radius: 10,
+                        //     maxOpacity: .5,
+                        //     minOpacity: 0,
+                        //     blur: .75
+                        // };
+                        // heatmapInstance = window.h337.create(config);
+                        // console.log(heatmapInstance);
+                        // // a single datapoint
+                        // var dataPoint = {
+                        //     x: 100, // x coordinate of the datapoint, a number
+                        //     y: 100, // y coordinate of the datapoint, a number
+                        //     value: 100 // the value at datapoint(x, y)
+                        // };
+                        // heatmapInstance.setData(dataPoint);
+                        // console.log(heatmapInstance);
+                        return heatmapInstance
+                        },
+                    setVisualData: function(){
+                        var config = {
+                            container: document.getElementById('image'),
+                            radius: 20,
+                            maxOpacity: .5,
+                            minOpacity: 0,
+                            blur: .75
+                        };
+                        if(heatmapInstance == null){
+                        heatmapInstance = window.h337.create(config);
+                        }
+
+                        console.log(heatmapInstance);
+                    // a single datapoint
+                        var dataPoint = {
+                            x: Math.floor((Math.random() * 400) + 1), // x coordinate of the datapoint, a number
+                            y: Math.floor((Math.random() * 400) + 1), // y coordinate of the datapoint, a number
+                            value: Math.floor(Math.random() * 100) // the value at datapoint(x, y)
+                        };
+
+                    // define the maximum and minimum value and pass data points to define color intensity
+                        var data = {
+                            max: 100,
+                            min: 0,
+                            data: [
+                                dataPoint
+                            ]
+                        };
+
+                        heatmapInstance.setData(data);
+
+                    // console.log(heatmapInstance.getData());
+                    },
+                    repaintVisuals: function(){
+                        heatmapInstance.repaint();
+                    }
+            };
+        })();
         
         return {
             // detectingShape: function(e){
@@ -686,6 +750,9 @@ var summerHtmlImageMapCreator = (function() {
             saveInLocalStorage : localStorageWrapper.save,
             loadFromLocalStorage : localStorageWrapper.restore,
             removeFromLocalStorage : localStorageWrapper.remove,
+            // configVisuals: visuals.configVisual,
+            setVisuals: visuals.setVisualData,
+            resetVisuals: visuals.repaintVisuals,
             /*get the coordinates on SVG*/
             // clickPic: on_click_info.set(utils.getRightCoords(e.pageX,e.pageY)),
             hide : function() {
@@ -703,8 +770,12 @@ var summerHtmlImageMapCreator = (function() {
             setDimensions : function(width, height) {
                 domElements.svg.setAttribute('width', width);
                 domElements.svg.setAttribute('height', height);
+                // domElements.canvas.setAttribute('width', width);
+                // domElements.canvas.setAttribute('height', height);
                 domElements.container.style.width = width + 'px';
                 domElements.container.style.height = height + 'px';
+
+
                 return this;
             },
             loadImage : function(url) {
@@ -3097,6 +3168,7 @@ var summerHtmlImageMapCreator = (function() {
     
 
     /* Edit selected area info */
+    /*Area context menu*/
     var info = (function() {
         var form = utils.id('edit_details'),
             header = form.querySelector('h5'),
@@ -3236,6 +3308,7 @@ var summerHtmlImageMapCreator = (function() {
 
 
     /* Get image form */
+    /*Image drag drop*/
     var get_image = (function() {
         var block = utils.id('get_image_wrapper'),
             close_button = block.querySelector('.close_button'),
@@ -3480,7 +3553,9 @@ var summerHtmlImageMapCreator = (function() {
             preview = utils.id('preview'),
             new_image = utils.id('new_image'),
             show_help = utils.id('show_help'),
-            marker = utils.id('marker');
+            marker = utils.id('marker'),
+            show_visualization = utils.id('show-visualization'),
+            hide_visualization = utils.id('hide-visualization');
 
         function deselectAll() {
             utils.foreach(all, function(x) {
@@ -3624,6 +3699,20 @@ var summerHtmlImageMapCreator = (function() {
             selectOne(this);
             e.preventDefault();
         }
+
+        function showHeatMap(){
+            app.setVisuals();
+            $('#image canvas').removeClass('hidden');
+            $('#hide-visualization').removeClass('hidden');
+            $('#show-visualization').addClass('hidden');
+        }
+
+        function hideHeatMap(){
+            $('#image canvas').addClass('hidden');
+            $('#hide-visualization').addClass('hidden');
+            $('#show-visualization').removeClass('hidden');
+
+        }
         
         save.addEventListener('click', onSaveButtonClick, false);
         load.addEventListener('click', onLoadButtonClick, false);
@@ -3638,6 +3727,8 @@ var summerHtmlImageMapCreator = (function() {
         new_image.addEventListener('click', onNewImageButtonClick, false);
         show_help.addEventListener('click', onShowHelpButtonClick, false);
         marker.addEventListener('click', addMarker, false);
+        show_visualization.addEventListener('click', showHeatMap, false);
+        hide_visualization.addEventListener('click', hideHeatMap, false);
 
         $(document).ready(function () {
             floorNo = "floor1";

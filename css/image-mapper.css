@@ -352,6 +352,21 @@
     line-height: 1.3;
 }
 
+/*canvas*/
+#heatmap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.heatmap-canvas{
+    z-index: 100;
+}
+
 /* CSS for SVG-elements */
 
 #svg {

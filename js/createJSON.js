@@ -22,11 +22,10 @@ $('form').validate({
             required: true,
             min: 1
         }
-        , agree: "required"
-    }, // Specify the validation error messages
+    },
     messages: {
         locationName: {
-            reuired: "Please enter the location name"
+            required: "Please enter the location name"
             , minlength: "Location name should be more than 3 characters"
         }
         , address: {

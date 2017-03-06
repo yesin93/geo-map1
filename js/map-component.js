@@ -88,10 +88,6 @@ $(document).ready(function () {
 });
 
 
-
-
-
-
 function openWin(id) {
     window.open("visualizer.html?id=" + id);
 }

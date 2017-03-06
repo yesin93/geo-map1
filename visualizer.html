@@ -163,6 +163,24 @@
                             <!--Place Device-->
                         <!--</a>-->
                     <!--</li>-->
+                    <li id="show-visualization">
+                        <a href="#" title="Device Status">
+                            <span class="icon fw-stack add-margin-right-1x">
+                                <i class="fw fw-statistics fw-helper fw-helper-circle-outline"></i>
+                            </span>
+                            Show Heatmap
+                        </a>
+                    </li>
+
+                    <li id="hide-visualization" class="hidden">
+                        <a href="#" title="Device Status">
+                            <span class="icon fw-stack add-margin-right-1x">
+                                <i class="fw fw-statistics fw-helper fw-helper-circle-outline"></i>
+                            </span>
+                            Hide Heatmap
+                        </a>
+                    </li>
+
                     <li id="show_help">
                         <a href="#" title="View user guide for tool">
                             <span class="icon fw-stack add-margin-right-1x">
@@ -241,6 +259,7 @@
                         <div id="image">
                             <img src="" alt="#" id="img"/>
                             <svg xmlns="http://www.w3.org/2000/svg" version="1.2" baseProfile="tiny" id="svg"></svg>
+                            <!--<canvas id="heatmap"> </canvas>-->
                         </div>
                     </div>
                 </div>
@@ -356,6 +375,9 @@
 <script src="libs/bootstrap_3.3.6/js/bootstrap.min.js"></script>
 <script src="libs/theme-wso2_2.0.0/js/theme-wso2.min.js"></script>
 <script type="text/javascript" src="js/summerHTMLImageMapCreator.js"></script>
+
+<!--Heatmaps.js-->
+<script type="text/javascript" src="libs/heatmap/heatmap.min.js"></script>
 
 <script>
     //get the number of floors of the building
