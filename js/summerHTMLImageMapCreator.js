@@ -431,10 +431,25 @@ var summerHtmlImageMapCreator = (function() {
                 //checking on double click whether element is of type rect
                 if (e.target.tagName === 'rect' || e.target.tagName === 'circle' || e.target.tagName === 'polygon') {
                     state.selectedArea = e.target.parentNode.obj;
+                    console.log(state.selectedArea);
                     //Displays the area attribute form
                     // console.log(state.selectedArea._attributes.title);
                     info.load(state.selectedArea, e.pageX, e.pageY);
                 }
+            }
+
+            if(state.appMode === 'editing') {
+                // var KEY_NAME = "yesin";
+                // var obJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+                //
+                // console.log(typeof obJSON);
+                // console.log(obJSON.metaData);
+                //
+                // var buildingId = getUrlParameter("id");
+                // $.each(obJSON.metaData, function(index, value){
+                //     if(value.buildingPlan.area)
+                // });
+                // console.log(this);
             }
         }
         
@@ -657,7 +672,78 @@ var summerHtmlImageMapCreator = (function() {
                                         console.log(element[floorNo]);
                                     }
                                 }
-                            })
+                            });
+                        }
+                    });
+                    var altJSON = JSON.stringify(objectJSON);
+                    window.localStorage.setItem(KEY_NAME, altJSON);
+                    //console.info('Editor ' + result + ' saved');
+
+                    alert('Removed');
+                }
+            };
+        })();
+
+        var buildingStorage = (function(){
+            var KEY_NAME = "yesin";
+            var buildingId = getUrlParameter("id");
+            var objectJSON = JSON.parse(window.localStorage.getItem(KEY_NAME));
+            return{
+                save: function(){
+                    $.each(objectJSON.metaData, function(i, val){
+                        if(val.id == parseInt(buildingId)){
+                            var result = areasIO.toJSON();
+                            val.buildingPlan = result;
+                        }
+                    });
+
+                    var altJSON = JSON.stringify(objectJSON);
+                    window.localStorage.setItem(KEY_NAME, altJSON);
+                    //console.info('Editor ' + result + ' saved');
+
+                    alert('Saved');
+
+
+                },
+                restore: function(){
+                    $.each(objectJSON.metaData, function(i, val){
+                        if(val.id == parseInt(buildingId)){
+                            // $.each(val.floorplan, function(i, val) {
+                            //     console.log(val[floorNo]);
+                                if(val.buildingPlan == ""){
+                                    app.setMode(null)
+                                        .setDefaultClass()
+                                        .setShape(null)
+                                        .setIsDraw(false)
+                                        .clear()
+                                        .hide()
+                                        .hidePreview();
+                                    // buttons.deselectAll();
+                                    get_image.show();
+                                }else{
+                                    areasIO.fromJSON(JSON.stringify(val.buildingPlan));
+                                }
+                            // });
+                        }
+                    });
+                },
+                remove: function(){
+                    $.each(objectJSON.metaData, function(i, val){
+                        if(val.id == parseInt(buildingId)){
+                            val.buildingPlan = "";
+                            // $.each(val.floorplan, function(i, element){
+                            //     console.log(floorNo);
+                            //     console.log(Object.keys(element));
+                            //     var floorNames = Object.keys(element);
+
+                                // for(var i=0; i< floorNames.length; i++){
+                                //     if( floorNames[i] == floorNo){
+                                //         console.log(floorNo);
+                                //         element[floorNo] = "";
+                                //         // console.log(element[floorNo]);
+                                //     }
+                                // }
+                            // });
                         }
                     });
                     var altJSON = JSON.stringify(objectJSON);
@@ -753,8 +839,9 @@ var summerHtmlImageMapCreator = (function() {
             // configVisuals: visuals.configVisual,
             setVisuals: visuals.setVisualData,
             resetVisuals: visuals.repaintVisuals,
-            /*get the coordinates on SVG*/
-            // clickPic: on_click_info.set(utils.getRightCoords(e.pageX,e.pageY)),
+            saveBuildingPlan : buildingStorage.save,
+            loadBuildingPlan : buildingStorage.restore,
+            removeBuildingPlan : buildingStorage.remove,
             hide : function() {
                 utils.hide(domElements.container);
                 return this;
@@ -1482,6 +1569,8 @@ var summerHtmlImageMapCreator = (function() {
         this._coords = {
             x : coords.x || 0,
             y : coords.y || 0,
+            // width : coords.width || 0,
+            // height : coords.height || 0
             width : coords.width || 0,
             height : coords.height || 0
         };
@@ -1498,7 +1587,7 @@ var summerHtmlImageMapCreator = (function() {
             // bottom : new Helper(this._groupEl, x, y, 'editBottom'),
             // left : new Helper(this._groupEl, x, y, 'editLeft'),
             // right : new Helper(this._groupEl, x, y, 'editRight'),
-            topLeft : new Marking(this._groupEl, x, y, 'move'),
+            topLeft : new Marking(this._groupEl, x, y, 'move')
             // topRight : new Helper(this._groupEl, x, y, 'editTopRight'),
             // bottomLeft : new Helper(this._groupEl, x, y, 'editBottomLeft'),
             // bottomRight : new Helper(this._groupEl, x, y, 'editBottomRight')
@@ -1628,7 +1717,7 @@ var summerHtmlImageMapCreator = (function() {
                 tempParams.x += dx;
                 tempParams.y += dy;
                 break;
-            //
+
             // case 'editLeft':
             //     tempParams.x += dx;
             //     tempParams.width -= dx;
@@ -1646,14 +1735,14 @@ var summerHtmlImageMapCreator = (function() {
             // case 'editBottom':
             //     tempParams.height += dy;
             //     break;
-
+            //
             // case 'editTopLeft':
             //     tempParams.x += dx;
             //     tempParams.y += dy;
             //     tempParams.width -= dx;
             //     tempParams.height -= dy;
             //     break;
-
+            //
             // case 'editTopRight':
             //     tempParams.y += dy;
             //     tempParams.width += dx;
@@ -3555,7 +3644,8 @@ var summerHtmlImageMapCreator = (function() {
             show_help = utils.id('show_help'),
             marker = utils.id('marker'),
             show_visualization = utils.id('show-visualization'),
-            hide_visualization = utils.id('hide-visualization');
+            hide_visualization = utils.id('hide-visualization'),
+            view_building = utils.id('building-view');
 
         function deselectAll() {
             utils.foreach(all, function(x) {
@@ -3570,7 +3660,11 @@ var summerHtmlImageMapCreator = (function() {
         
         function onSaveButtonClick(e) {
             // Save in localStorage
-            app.saveInLocalStorage();
+            if(floorText = "Building View"){
+                app.saveBuildingPlan();
+            }else{
+                app.saveInLocalStorage();
+            }
             
             e.preventDefault();
         }
@@ -3597,7 +3691,7 @@ var summerHtmlImageMapCreator = (function() {
             info.unload();
 
             selectOne(this);
-            debugger;
+            // debugger;
             e.preventDefault();
         }
         
@@ -3665,21 +3759,43 @@ var summerHtmlImageMapCreator = (function() {
         
         function onNewImageButtonClick(e) {
             // New image - clear all and back to loading image screen
-            if(confirm('Discard all changes?')) {
-                app.setMode(null)
-                   .setDefaultClass()
-                   .setShape(null)
-                   .setIsDraw(false)
-                   .clear()
-                   .hide()
-                   .hidePreview()
-                .removeFromLocalStorage();
-                deselectAll();
-                get_image.show();
-                console.log(floorNo);
-            } 
 
-            e.preventDefault();
+            if(floorText = "Building View"){
+                if(confirm('Discard all changes?')) {
+                    app.setMode(null)
+                        .setDefaultClass()
+                        .setShape(null)
+                        .setIsDraw(false)
+                        .clear()
+                        .hide()
+                        .hidePreview()
+                        .removeBuildingPlan;
+                    deselectAll();
+                    get_image.show();
+                    // console.log(floorNo);
+                }
+
+                e.preventDefault();
+
+            }else{
+
+                if(confirm('Discard all changes?')) {
+                    app.setMode(null)
+                        .setDefaultClass()
+                        .setShape(null)
+                        .setIsDraw(false)
+                        .clear()
+                        .hide()
+                        .hidePreview()
+                        .removeFromLocalStorage();
+                    deselectAll();
+                    get_image.show();
+                    console.log(floorNo);
+                }
+
+                e.preventDefault();
+            }
+
         }
         
         function onShowHelpButtonClick(e) {
@@ -3713,6 +3829,13 @@ var summerHtmlImageMapCreator = (function() {
             $('#show-visualization').removeClass('hidden');
 
         }
+
+        function showBuilding(){
+            app.clear()
+                .loadBuildingPlan();
+            floorText = "Building View"
+            $('#file_reader_support > h3').html(floorText + ' - Please upload the building Plan');
+        }
         
         save.addEventListener('click', onSaveButtonClick, false);
         load.addEventListener('click', onLoadButtonClick, false);
@@ -3729,11 +3852,14 @@ var summerHtmlImageMapCreator = (function() {
         marker.addEventListener('click', addMarker, false);
         show_visualization.addEventListener('click', showHeatMap, false);
         hide_visualization.addEventListener('click', hideHeatMap, false);
+        view_building.addEventListener('click', showBuilding, false);
 
         $(document).ready(function () {
             floorNo = "floor1";
+            floorText = "Floor 1";
             app.clear()
                 .loadFromLocalStorage();
+            $('#file_reader_support > h3').html(floorText + ' - Please upload the building Plan');
         });
 
         $(document).on('click','#floors-dropdown li a',function(e){
