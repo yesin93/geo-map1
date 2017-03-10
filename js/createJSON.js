@@ -85,6 +85,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
             //prepare the properties of the object
             markerDetails["id"] = markerId;
             markerDetails["address"] = address;
+            markerDetails["buildingPlan"] = "";
             markerDetails["coordinates"] = coordinates;
             markerDetails["floorplan"] = floorplan;
             markerDetails["floors"] = floors;
@@ -99,7 +100,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
             createMarkerObj(markerId, name, address, floors);
         }
 
-        //Add marker details to existing JSON
+        //Add new marker details to existing JSON
         function createMarkerObj(markerId, name, address, floors){
             var existing  = false;
             var noReplicate = false;
@@ -123,7 +124,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
             });
 
             if(noReplicate == false){
-                console.log("No similar object found");
+                console.log("No similar object found. Creating New");
                 var floorplan = [];
                 var floorObjs = {};
 
@@ -137,6 +138,7 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
                 //prepare the properties of the object
                 markerDetails["id"] = markerId;
                 markerDetails["address"] = address;
+                markerDetails["buildingPlan"] = "";
                 markerDetails["coordinates"] = coordinates;
                 markerDetails["floorplan"] = floorplan;
                 markerDetails["floors"] = floors;
@@ -171,13 +173,18 @@ $('#home').on('click', '[data-toggle=update-data]', function(e){
 
             var popup = L.popup({
                 autoPan: true,
-                keepInView: true})
+                keepInView: true,
+                className: markerId})
                 .setContent(popupContent);
 
 
             var markerObj =  markers[markerId];
             markerObj.unbindPopup();
             markerObj.bindPopup(popup);
+
+            console.log(popup.className);
+
+            // $(this).attr("id", markerId);
         }
 
 

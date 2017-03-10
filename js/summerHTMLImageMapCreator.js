@@ -649,6 +649,12 @@ var summerHtmlImageMapCreator = (function() {
                                         get_image.show();
                                     }else{
                                         areasIO.fromJSON(JSON.stringify(val[floorNo]));
+                                        $('#draw-tools').show(1000);
+                                        $('#show-visualization').show(500);
+                                        $('#new_image').show(500);
+                                        $('#clear').show(500);
+                                        $('#save').show(500);
+                                        $('#preview').show(500);
                                     }
                                 });
                             }
@@ -678,6 +684,14 @@ var summerHtmlImageMapCreator = (function() {
                     var altJSON = JSON.stringify(objectJSON);
                     window.localStorage.setItem(KEY_NAME, altJSON);
                     //console.info('Editor ' + result + ' saved');
+
+                    $('#draw-tools').hide(500);
+                    $('#show-visualization').hide(500);
+                    $('#new_image').hide(500);
+                    $('#clear').hide(500);
+                    $('#save').hide(500);
+                    $('#preview').hide(500);
+
 
                     alert('Removed');
                 }
@@ -722,6 +736,13 @@ var summerHtmlImageMapCreator = (function() {
                                     get_image.show();
                                 }else{
                                     areasIO.fromJSON(JSON.stringify(val.buildingPlan));
+
+                                    $('#draw-tools').show(1000);
+                                    $('#show-visualization').show(500);
+                                    $('#new_image').show(500);
+                                    $('#clear').show(500);
+                                    $('#save').show(500);
+                                    $('#preview').show(500);
                                 }
                             // });
                         }
@@ -749,6 +770,13 @@ var summerHtmlImageMapCreator = (function() {
                     var altJSON = JSON.stringify(objectJSON);
                     window.localStorage.setItem(KEY_NAME, altJSON);
                     //console.info('Editor ' + result + ' saved');
+
+                    $('#draw-tools').hide(500);
+                    $('#show-visualization').hide(500);
+                    $('#new_image').hide(500);
+                    $('#clear').hide(500);
+                    $('#save').hide(500);
+                    $('#preview').hide(500);
 
                     alert('Removed');
                 }
@@ -3580,6 +3608,13 @@ var summerHtmlImageMapCreator = (function() {
                 app.loadImage(url_input.getImage()).setFilename(filename);
             } else if (last_changed === drag_n_drop && drag_n_drop.test()) {
                 app.loadImage(drag_n_drop.getImage()).setFilename(filename);
+
+                $('#draw-tools').show(1000);
+                $('#show-visualization').show(500);
+                $('#new_image').show(500);
+                $('#clear').show(500);
+                $('#save').show(500);
+                $('#preview').show(500);
             }
             
             e.preventDefault();
@@ -3819,12 +3854,14 @@ var summerHtmlImageMapCreator = (function() {
         function showHeatMap(){
             app.setVisuals();
             $('#image canvas').removeClass('hidden');
+            $('.slider-wrapper').show(1000);
             $('#hide-visualization').removeClass('hidden');
             $('#show-visualization').addClass('hidden');
         }
 
         function hideHeatMap(){
             $('#image canvas').addClass('hidden');
+            $('.slider-wrapper').hide(1000);
             $('#hide-visualization').addClass('hidden');
             $('#show-visualization').removeClass('hidden');
 
@@ -3853,6 +3890,17 @@ var summerHtmlImageMapCreator = (function() {
         show_visualization.addEventListener('click', showHeatMap, false);
         hide_visualization.addEventListener('click', hideHeatMap, false);
         view_building.addEventListener('click', showBuilding, false);
+
+        //
+        // show_visualization.click(function(){
+        //     console.log("swswswsw")
+        //     showHeatMap();
+        //     $('.example-sidebar').show();
+        // });
+        // hide_visualization.click(function(){
+        //     hideHeatMap();
+        //     $('.example-sidebar').hide();
+        // });
 
         $(document).ready(function () {
             floorNo = "floor1";
