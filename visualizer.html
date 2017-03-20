@@ -28,7 +28,7 @@
     <link href="libs/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet">
 
     <!--Bootstrap slider css-->
-    <link href="libs/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet" type="text/css"/>
+    <link href="libs/bootstrap_slider/css/bootstrap-slider.min.css" rel="stylesheet" type="text/css"/>
 
     <!--bootstrap date range picker-->
     <link href="libs/bootstrap_daterange_picker/css/daterangepicker.css" rel="stylesheet" type="text/css"/>
@@ -36,6 +36,8 @@
     <!--custom scripts-->
     <link href="css/custom.css" rel="stylesheet" type="text/css"/>
     <link href="css/slider.css" rel="stylesheet" type="text/css"/>
+    <link href="css/colorDynamicRange.css" rel="stylesheet" type="text/css"/>
+
 
 
 
@@ -456,11 +458,54 @@
 
 
     <div id="color-range">
-        <div class = "color-range-wrapper">
+        <div class ="color-stream add-padding-3x">
+            <h4>Heatmap Stream</h4>
+            <form class="form">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <div class="radio">
+                        <label class="custom-radio">
+                            <input type="radio" name="stream-option">
+                            <span class="helper">Stream 1</span>
+                        </label>
+                        </div>
+                        <div class="radio">
+                        <label class="custom-radio">
+                            <input type="radio" name="stream-option">
+                            <span class="helper">Stream 2</span>
+                        </label>
+                        </div>
+                        <div class="radio">
+                            <label class="custom-radio">
+                                <input type="radio" name="stream-option">
+                                <span class="helper">Stream 3</span>
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="custom-radio">
+                                <input type="radio" name="stream-option">
+                                <span class="helper">Stream 4</span>
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label class="custom-radio">
+                                <input type="radio" name="stream-option">
+                                <span class="helper">Stream 5</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
 
-                        <label for="daterange2" class="col-sm-3 control-label"> Placeholder for Color range</label>
+        </div>
+        </br>
+        <div class = "color-range-wrapper add-padding-3x add-padding-top-3x">
+            <h4>Heatmap Range</h4>
+            <div id="range-table">
 
+            </div>
+                        <!--<label for="daterange2" class="col-sm-3 control-label"> Placeholder for Color range</label>-->
         </div>
 
     </div>
@@ -484,7 +529,7 @@
 <!--wso2 theme-->
 <script src="libs/theme-wso2_2.0.0/js/theme-wso2.min.js"></script>
 <!--bootstrap slider-->
-<script src="libs/bootstrap-slider/bootstrap-slider.min.js"></script>
+<script src="libs/bootstrap_slider/js/bootstrap-slider.min.js"></script>
 <!--moment js-->
 <script src="libs/moment/moment.min.js"></script>
 
@@ -497,6 +542,11 @@
 <!--Heatmaps.js-->
 <script type="text/javascript" src="libs/heatmap/heatmap.min.js"></script>
 
+<!--rainbowVis JS-->
+<script type="text/javascript" src="libs/rainbowVis/rainbowvis.js"></script>
+
+<!--dynamic color range-->
+<script type="text/javascript" src="js/colorDynamicRange.js"></script>
 
 
 <script>
