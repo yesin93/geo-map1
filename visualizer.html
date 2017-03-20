@@ -262,6 +262,7 @@
                 </div>
                 <div class="col-md-8 col-sm-12 col-xs-12">
                     <div id="image_wrapper">
+
                         <!-- Get image form -->
                         <div id="get_image_wrapper" class="">
                             <div id="get_image">
@@ -414,15 +415,19 @@
         <div class="slider-horizontal add-padding-bottom-2x">
 
             <div class ="row">
-                <div class = "col-md-7">
+                <div class = "col-md-8">
                     <div class = "slider-container add-padding-left-3x add-padding-top-2x">
-                        <label for="slider" class="col-sm-3 control-label">Frames: </label>
-                        <div class="col-sm-9">
-                        <input id="temp-slider" name="slider" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="60" data-slider-step="5" data-slider-value="60"/>
+                        <!--<label for="slider" class="col-sm-3 control-label">Frames: </label>-->
+                        <!--<div class="col-sm-9">-->
+                            <b id="from-span">From</b>
+                        <div id ="slider-component">
+                        <input id="temp-slider" class="span2" name="slider1" data-slider-id="ex1Slider" type="text" data-slider-min="0" data-slider-max="60" data-slider-step="5" />
                         </div>
+                            <b id="till-span">Till</b>
+                        <!--</div>-->
                         </div>
                 </div>
-                <div class = "col-md-5">
+                <div class = "col-md-4">
                     <div class="form-group add-padding-top-2x">
                         <div class="col-sm-12 form-inline">
                             <label class="control-label">Historical View</label>
@@ -442,11 +447,22 @@
                         <div class="datepicker-container add-padding-left-3x">
 
                                 <label for="daterange" class="col-sm-3 control-label"> Dates: </label>
-                                <input type="text" name="daterange" placeholder="01/02/2016 to 01/03/2016" />
+                                <input type="text" id="daterange" name="daterange" placeholder="01/02/2016 to 01/03/2016" />
                         </div>
                     </div>
                 </div>
         </div>
+    </div>
+
+
+    <div id="color-range">
+        <div class = "color-range-wrapper">
+
+
+                        <label for="daterange2" class="col-sm-3 control-label"> Placeholder for Color range</label>
+
+        </div>
+
     </div>
 
 

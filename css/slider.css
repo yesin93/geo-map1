@@ -1,12 +1,13 @@
 .slider-wrapper{
-    /*display: block;*/
-    display:none;
+    display: block;
+    /*display:none;*/
 }
 
 .slider-wrapper{
     position: absolute;
     left: 50%;
-    bottom: 0;
+    bottom: 0%;
+    width:50%;
     transition: bottom 0.1s linear,margin-bottom 0.1s linear;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
@@ -43,3 +44,17 @@
 .date-picker{
     display:none;
 }
+
+#color-range{
+    position: absolute;
+    right: 0%;
+    bottom: 50%;
+    transition: bottom 0.1s linear,margin-bottom 0.1s linear;
+    -webkit-transform: translateX(-0%);
+    transform: translateX(-0%);
+    border: 1px solid #d8d4dc;
+    background-color: #fafeff;
+    border-radius: 3px;
+    z-index:100;
+}
+
